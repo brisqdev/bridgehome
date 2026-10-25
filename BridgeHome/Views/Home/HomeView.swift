@@ -258,21 +258,21 @@ struct HomeView: View {
             VStack(spacing: 8) {
                 if let eviction = evictionArticle {
                     NavigationLink(destination: ArticleDetailView(article: eviction)) {
-                        guideRow(title: eviction.title, icon: "scale.3d")
+                        guideRow(title: eviction.title)
                     }
                     .buttonStyle(.plain)
                 }
                 
                 if let idWaiver = idWaiverArticle {
                     NavigationLink(destination: ArticleDetailView(article: idWaiver)) {
-                        guideRow(title: idWaiver.title, icon: "doc.text.fill")
+                        guideRow(title: idWaiver.title)
                     }
                     .buttonStyle(.plain)
                 }
                 
                 if let safeParking = safeParkingArticle {
                     NavigationLink(destination: ArticleDetailView(article: safeParking)) {
-                        guideRow(title: safeParking.title, icon: "car.fill")
+                        guideRow(title: safeParking.title)
                     }
                     .buttonStyle(.plain)
                 }
@@ -280,13 +280,8 @@ struct HomeView: View {
         }
     }
     
-    private func guideRow(title: String, icon: String) -> some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.system(size: 16, weight: .medium))
-                .foregroundStyle(Theme.Colors.accent)
-                .frame(width: 22)
-            
+    private func guideRow(title: String) -> some View {
+        HStack(spacing: 12) {
             Text(title)
                 .font(.system(.subheadline, design: .default, weight: .semibold))
                 .foregroundStyle(Theme.Colors.primaryText)

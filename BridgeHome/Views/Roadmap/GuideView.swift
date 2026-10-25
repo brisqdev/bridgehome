@@ -67,6 +67,46 @@ struct GuideView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .padding(.horizontal, Theme.Spacing.screenHorizontal)
                     
+                    // Featured Guide Hero Card (Uber-style 3D Vibe)
+                    if searchText.isEmpty, let featured = store.articles.first {
+                        NavigationLink(value: featured.id) {
+                            HStack(spacing: 16) {
+                                Image("3DHandbook")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(featured.title)
+                                        .font(.system(.headline, design: .default, weight: .bold))
+                                        .foregroundStyle(Theme.Colors.primaryText)
+                                        .lineLimit(2)
+                                    
+                                    Text("\(featured.readTimeMinutes) min read")
+                                        .font(.system(.caption, design: .default, weight: .semibold))
+                                        .foregroundStyle(Theme.Colors.accent)
+                                }
+                                
+                                Spacer()
+                                
+                                ZStack {
+                                    Circle()
+                                        .fill(Theme.Colors.primaryText)
+                                        .frame(width: 28, height: 28)
+                                    
+                                    Image(systemName: "arrow.right")
+                                        .font(.system(size: 11, weight: .bold))
+                                        .foregroundStyle(Color(UIColor.systemBackground))
+                                }
+                            }
+                            .padding(16)
+                            .background(Theme.Colors.cardBackground)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                    }
+                    
                     // Clean Article List (Just article view, no pills, no state tags)
                     LazyVStack(spacing: 12) {
                         ForEach(filteredArticles) { article in

@@ -9,8 +9,8 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     var authorizationStatus: CLAuthorizationStatus = .notDetermined
     var isLocating: Bool = false
     
-    // Default fallback coordinate (San Francisco Civic Center)
-    static let defaultCoordinate = CLLocationCoordinate2D(latitude: 37.7793, longitude: -122.4193)
+    // Default fallback coordinate (Bergen County & Passaic County, NJ)
+    static let defaultCoordinate = SupportedRegion.center
     
     override init() {
         super.init()

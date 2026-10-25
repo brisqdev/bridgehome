@@ -269,11 +269,12 @@ private struct MapFloatingResourceCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .center, spacing: 12) {
-                Image(systemName: resource.category.iconName)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(Theme.Colors.accent)
-                    .frame(width: 32)
+            HStack(alignment: .center, spacing: 14) {
+                // 3D Isometric Resource Category Illustration
+                Image(resource.category.asset3DName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {

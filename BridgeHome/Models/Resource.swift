@@ -21,6 +21,17 @@ enum ResourceCategory: String, CaseIterable, Identifiable, Codable {
         case .healthcare: return "cross.fill"
         }
     }
+    
+    var asset3DName: String {
+        switch self {
+        case .all: return "3DHandbook"
+        case .shelter: return "3DShelter"
+        case .meals: return "3DMeals"
+        case .legal: return "3DHandbook"
+        case .documents: return "3DBinder"
+        case .healthcare: return "3DHealth"
+        }
+    }
 }
 
 struct Resource: Identifiable, Codable, Equatable, Hashable {

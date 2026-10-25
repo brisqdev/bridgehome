@@ -39,9 +39,9 @@ struct BinderView: View {
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
                         .padding(.top, 4)
                     
-                    // Overall Roadmap Progress Bar
+                    // Overall Roadmap Progress Card
                     VStack(alignment: .leading, spacing: 10) {
-                        HStack {
+                        HStack(alignment: .center) {
                             Text("Roadmap Progress")
                                 .font(.system(.subheadline, design: .default, weight: .bold))
                                 .foregroundStyle(Theme.Colors.primaryText)

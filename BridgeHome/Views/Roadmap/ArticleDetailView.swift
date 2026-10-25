@@ -13,6 +13,17 @@ struct ArticleDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                 
+                // 3D Category Hero Illustration
+                HStack {
+                    Image(article.category.asset3DName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 58, height: 58)
+                    Spacer()
+                }
+                .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                .padding(.top, 4)
+                
                 // Header Meta
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {

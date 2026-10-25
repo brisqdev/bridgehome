@@ -20,6 +20,17 @@ enum ArticleCategory: String, CaseIterable, Identifiable, Codable {
         case .familyAndSituations: return "figure.2.and.child.holdinghands"
         }
     }
+    
+    var asset3DName: String {
+        switch self {
+        case .all: return "3DHandbook"
+        case .legalAndStateLaws: return "3DHandbook"
+        case .communityPrograms: return "3DMeals"
+        case .documentsNeeded: return "3DBinder"
+        case .safetyInstructions: return "3DHealth"
+        case .familyAndSituations: return "3DShelter"
+        }
+    }
 }
 
 struct ArticleSection: Identifiable, Codable, Equatable, Hashable {

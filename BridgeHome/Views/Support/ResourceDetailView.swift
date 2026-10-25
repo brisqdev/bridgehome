@@ -14,6 +14,17 @@ struct ResourceDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: Theme.Spacing.section) {
                 
+                // 3D Isometric Category Hero
+                HStack {
+                    Spacer()
+                    Image(resource.category.asset3DName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 72)
+                    Spacer()
+                }
+                .padding(.top, 6)
+                
                 // Header
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
