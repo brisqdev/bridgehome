@@ -25,30 +25,16 @@ struct ResourcesView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.element) {
                     
-                    // Large Header
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Community Support")
-                            .font(.system(.largeTitle, design: .default, weight: .bold))
-                            .foregroundStyle(Theme.Colors.primaryText)
-                        
-                        Text("Verified local emergency shelters, dining halls, legal defense, and vital document programs.")
-                            .font(.system(.body, design: .default))
-                            .foregroundStyle(Theme.Colors.secondaryText)
-                            .lineSpacing(2)
-                    }
-                    .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                    .padding(.top, 4)
-                    
-                    // Category Filter Scroll (Apple Music style)
+                    // Category Filter Scroll (Apple Music horizontal genre pills)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
                             // Saved Only Filter Pill
                             Button {
                                 showSavedOnly.toggle()
                             } label: {
-                                HStack(spacing: 4) {
+                                HStack(spacing: 5) {
                                     Image(systemName: showSavedOnly ? "bookmark.fill" : "bookmark")
-                                        .font(.system(size: 13))
+                                        .font(.system(size: 12))
                                     Text("Saved")
                                         .font(.system(.subheadline, design: .default, weight: .medium))
                                 }
@@ -76,7 +62,8 @@ struct ResourcesView: View {
                             }
                         }
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                        .padding(.vertical, 4)
+                        .padding(.top, 4)
+                        .padding(.bottom, 6)
                     }
                     
                     // Results List
@@ -90,7 +77,7 @@ struct ResourcesView: View {
                                 .foregroundStyle(Theme.Colors.secondaryText)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(.top, 40)
+                        .padding(.top, 60)
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
                     } else {
                         VStack(spacing: 0) {
@@ -119,8 +106,14 @@ struct ResourcesView: View {
                     }
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $searchText, prompt: "Search shelters, meals, legal clinics...")
+            .navigationTitle("Resources")
+            .navigationBarTitleDisplayMode(.large)
+            .searchable(text: $searchText, prompt: "Search shelters, food, legal clinics...")
         }
     }
+}
+
+#Preview {
+    ResourcesView()
+        .environment(HousingStore())
 }

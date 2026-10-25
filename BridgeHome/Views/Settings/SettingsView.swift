@@ -118,3 +118,8 @@ struct SettingsView: View {
         }
     }
 }
+
+#Preview {
+    SettingsView()
+        .environment(HousingStore())
+}

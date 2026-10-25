@@ -19,7 +19,7 @@ struct SectionHeader: View {
                 if let actionTitle, let action {
                     Button(action: action) {
                         Text(actionTitle)
-                            .font(.system(.subheadline, design: .default, weight: .medium))
+                            .font(.system(.subheadline, design: .default, weight: .semibold))
                             .foregroundStyle(Theme.Colors.accent)
                     }
                 }
@@ -29,8 +29,18 @@ struct SectionHeader: View {
                 Text(subtitle)
                     .font(.system(.subheadline, design: .default))
                     .foregroundStyle(Theme.Colors.secondaryText)
+                    .lineSpacing(2)
             }
         }
         .padding(.horizontal, Theme.Spacing.screenHorizontal)
     }
+}
+
+#Preview {
+    SectionHeader(
+        title: "Application Documents",
+        subtitle: "Select any item to review how to obtain it or record notes",
+        actionTitle: "Add Contact",
+        action: {}
+    )
 }

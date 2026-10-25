@@ -22,7 +22,7 @@ struct StepDetailView: View {
                             Text(step.stage.rawValue.uppercased())
                                 .font(.system(.caption, design: .default, weight: .bold))
                                 .foregroundStyle(Theme.Colors.accent)
-                                .tracking(0.5)
+                                .tracking(0.8)
                             
                             Text(step.title)
                                 .font(.system(.title, design: .default, weight: .bold))
@@ -31,7 +31,7 @@ struct StepDetailView: View {
                             Text(step.shortSummary)
                                 .font(.system(.body, design: .default))
                                 .foregroundStyle(Theme.Colors.secondaryText)
-                                .lineSpacing(2)
+                                .lineSpacing(3)
                         }
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
                         .padding(.top, 4)
@@ -68,7 +68,7 @@ struct StepDetailView: View {
                                                     .foregroundStyle(isItemDone ? Theme.Colors.secondaryText : Theme.Colors.primaryText)
                                                     .strikethrough(isItemDone, color: Theme.Colors.secondaryText)
                                                     .multilineTextAlignment(.leading)
-                                                    .lineSpacing(2)
+                                                    .lineSpacing(3)
                                                 
                                                 Spacer(minLength: 0)
                                             }
@@ -76,6 +76,7 @@ struct StepDetailView: View {
                                             .contentShape(Rectangle())
                                         }
                                         .buttonStyle(.plain)
+                                        .accessibilityLabel(isItemDone ? "Mark incomplete: \(item)" : "Mark completed: \(item)")
                                         
                                         if item != step.actionChecklist.last {
                                             Divider()
@@ -159,5 +160,12 @@ struct StepDetailView: View {
                     .foregroundStyle(Theme.Colors.secondaryText)
             }
         }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        StepDetailView(stepId: "step_safe_tonight")
+            .environment(HousingStore())
     }
 }

@@ -71,3 +71,8 @@ struct AddContactSheet: View {
         }
     }
 }
+
+#Preview {
+    AddContactSheet()
+        .environment(HousingStore())
+}

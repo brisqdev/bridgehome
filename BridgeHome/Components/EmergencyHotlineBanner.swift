@@ -1,23 +1,23 @@
 import SwiftUI
 
-/// A calm, dignified banner offering immediate 24/7 hotline assistance without alarmist styling.
+/// A calm, dignified access point for 24/7 community assistance without alarmist styling.
 struct EmergencyHotlineBanner: View {
     @Environment(\.openURL) private var openURL
     
     var body: some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.element) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Need Immediate Shelter or Food?")
-                    .font(.system(.headline, design: .default, weight: .semibold))
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Need Emergency Shelter or Food?")
+                    .font(.system(.title3, design: .default, weight: .bold))
                     .foregroundStyle(Theme.Colors.primaryText)
                 
-                Text("Dial 2-1-1 for free, 24/7 confidential community dispatch to nearby emergency shelters, warming centers, and meal sites.")
-                    .font(.system(.subheadline, design: .default))
+                Text("Call 2-1-1 for free, 24/7 confidential community dispatch to nearby shelters, warming centers, and daily meal sites.")
+                    .font(.system(.body, design: .default))
                     .foregroundStyle(Theme.Colors.secondaryText)
-                    .lineSpacing(2)
+                    .lineSpacing(3)
             }
             
-            HStack(spacing: Theme.Spacing.element) {
+            HStack(spacing: 12) {
                 Button {
                     if let url = URL(string: "tel:211") {
                         openURL(url)
@@ -25,32 +25,37 @@ struct EmergencyHotlineBanner: View {
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "phone.fill")
-                            .font(.system(size: 14))
+                            .font(.system(size: 13))
                         Text("Call 2-1-1")
                             .font(.system(.subheadline, design: .default, weight: .semibold))
                     }
                     .foregroundStyle(.white)
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 18)
                     .padding(.vertical, 10)
                     .background(Theme.Colors.accent)
                     .clipShape(Capsule())
                 }
+                .accessibilityLabel("Call 2-1-1 helpline")
+                .accessibilityHint("Connects directly to 24/7 emergency dispatch")
                 
                 Link(destination: URL(string: "https://www.211.org")!) {
                     Text("Visit 211.org")
                         .font(.system(.subheadline, design: .default, weight: .medium))
                         .foregroundStyle(Theme.Colors.primaryText)
-                        .padding(.horizontal, 14)
+                        .padding(.horizontal, 16)
                         .padding(.vertical, 10)
                         .background(Theme.Colors.secondaryBackground)
                         .clipShape(Capsule())
                 }
+                .accessibilityLabel("Visit 211 website")
             }
+            .padding(.top, 2)
         }
-        .padding(Theme.Spacing.element)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.Colors.secondaryBackground)
-        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
         .padding(.horizontal, Theme.Spacing.screenHorizontal)
     }
+}
+
+#Preview {
+    EmergencyHotlineBanner()
+        .padding(.vertical)
 }

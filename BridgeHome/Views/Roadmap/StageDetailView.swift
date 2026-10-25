@@ -14,7 +14,7 @@ struct StageDetailView: View {
                     Text("STAGE \(stage.order)")
                         .font(.system(.caption, design: .default, weight: .bold))
                         .foregroundStyle(Theme.Colors.accent)
-                        .tracking(0.5)
+                        .tracking(0.8)
                     
                     Text(stage.rawValue)
                         .font(.system(.largeTitle, design: .default, weight: .bold))
@@ -23,7 +23,7 @@ struct StageDetailView: View {
                     Text(stage.subtitle)
                         .font(.system(.body, design: .default))
                         .foregroundStyle(Theme.Colors.secondaryText)
-                        .lineSpacing(2)
+                        .lineSpacing(3)
                 }
                 .padding(.horizontal, Theme.Spacing.screenHorizontal)
                 .padding(.top, 4)
@@ -45,7 +45,7 @@ struct StageDetailView: View {
                         
                         if step.id != steps.last?.id {
                             Divider()
-                                .padding(.leading, 44)
+                                .padding(.leading, 56)
                         }
                     }
                 }
@@ -54,5 +54,12 @@ struct StageDetailView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        StageDetailView(stage: .immediateSafety)
+            .environment(HousingStore())
     }
 }

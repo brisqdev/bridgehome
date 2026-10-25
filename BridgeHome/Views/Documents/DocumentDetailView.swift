@@ -22,7 +22,7 @@ struct DocumentDetailView: View {
                             Text(document.category.rawValue.uppercased())
                                 .font(.system(.caption, design: .default, weight: .bold))
                                 .foregroundStyle(Theme.Colors.accent)
-                                .tracking(0.5)
+                                .tracking(0.8)
                             
                             Text(document.name)
                                 .font(.system(.title, design: .default, weight: .bold))
@@ -31,7 +31,7 @@ struct DocumentDetailView: View {
                             Text(document.purpose)
                                 .font(.system(.body, design: .default))
                                 .foregroundStyle(Theme.Colors.secondaryText)
-                                .lineSpacing(2)
+                                .lineSpacing(3)
                         }
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
                         .padding(.top, 4)
@@ -107,5 +107,12 @@ struct DocumentDetailView: View {
                     .foregroundStyle(Theme.Colors.secondaryText)
             }
         }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        DocumentDetailView(documentId: "doc_photo_id")
+            .environment(HousingStore())
     }
 }

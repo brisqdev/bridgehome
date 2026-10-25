@@ -20,7 +20,7 @@ struct ResourceDetailView: View {
                         Text(resource.category.rawValue.uppercased())
                             .font(.system(.caption, design: .default, weight: .bold))
                             .foregroundStyle(Theme.Colors.accent)
-                            .tracking(0.5)
+                            .tracking(0.8)
                         
                         Spacer()
                         
@@ -102,7 +102,7 @@ struct ResourceDetailView: View {
                             .foregroundStyle(Theme.Colors.primaryText)
                             .clipShape(Circle())
                     }
-                    .accessibilityLabel("Share resource")
+                    .accessibilityLabel("Share resource details")
                 }
                 .padding(.horizontal, Theme.Spacing.screenHorizontal)
                 
@@ -193,5 +193,30 @@ struct ResourceDetailView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        ResourceDetailView(
+            resource: Resource(
+                id: "res_preview",
+                name: "Downtown Housing Navigator Center",
+                category: .shelter,
+                address: "410 S. Main Street, Suite 100",
+                phone: "(555) 329-8400",
+                hours: "Monday – Friday: 8:00 AM – 4:30 PM",
+                overview: "Walk-in resource hub offering Coordinated Entry assessments, mail delivery service, day lockers, and housing search case managers.",
+                servicesOffered: [
+                    "Coordinated Entry assessments",
+                    "Free day-lockers and phone charging stations",
+                    "General delivery mail address for clients"
+                ],
+                eligibility: "Unsheltered individuals, families at imminent risk of displacement.",
+                whatToBring: ["Photo ID if available (not required for first visit)"],
+                isEmergencyHotline: false
+            )
+        )
+        .environment(HousingStore())
     }
 }

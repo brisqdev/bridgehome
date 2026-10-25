@@ -12,6 +12,7 @@ struct CalloutBox: View {
                 .font(.system(size: 18))
                 .foregroundStyle(Theme.Colors.accent)
                 .padding(.top, 2)
+                .accessibilityHidden(true)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
@@ -21,7 +22,7 @@ struct CalloutBox: View {
                 Text(message)
                     .font(.system(.subheadline, design: .default))
                     .foregroundStyle(Theme.Colors.secondaryText)
-                    .lineSpacing(2)
+                    .lineSpacing(3)
             }
         }
         .padding(Theme.Spacing.element)
@@ -29,4 +30,13 @@ struct CalloutBox: View {
         .background(Theme.Colors.secondaryBackground)
         .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
     }
+}
+
+#Preview {
+    CalloutBox(
+        icon: "shield.lefthalf.filled",
+        title: "Rights & Guidance",
+        message: "You have the right to a safe environment free from harassment. If you feel unsafe, you can request an alternate placement."
+    )
+    .padding()
 }

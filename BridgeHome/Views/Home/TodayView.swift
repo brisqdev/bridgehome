@@ -13,95 +13,69 @@ struct TodayView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.section) {
                     
-                    // Date & Editorial Eyebrow
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(formattedDate)
-                            .font(.system(.footnote, design: .default, weight: .bold))
-                            .foregroundStyle(Theme.Colors.secondaryText)
-                            .tracking(0.5)
-                        
-                        Text("Today")
-                            .font(.system(.largeTitle, design: .default, weight: .bold))
-                            .foregroundStyle(Theme.Colors.primaryText)
-                    }
-                    .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                    .padding(.top, 4)
-                    
-                    // Daily Focus: Exactly ONE attainable next step
+                    // Editorial Focus: Today's Primary Action
                     if let focusStep = store.dailyFocusStep {
                         VStack(alignment: .leading, spacing: 12) {
-                            SectionHeader(
-                                title: "Next Step",
-                                subtitle: "Focus on one manageable action at a time"
-                            )
+                            // Eyebrow
+                            Text(focusStep.stage.rawValue.uppercased())
+                                .font(.system(.caption, design: .default, weight: .bold))
+                                .foregroundStyle(Theme.Colors.accent)
+                                .tracking(0.8)
                             
                             NavigationLink {
                                 StepDetailView(stepId: focusStep.id)
                             } label: {
-                                VStack(alignment: .leading, spacing: 14) {
-                                    HStack {
-                                        Text(focusStep.stage.rawValue.uppercased())
-                                            .font(.system(.caption, design: .default, weight: .semibold))
-                                            .foregroundStyle(Theme.Colors.accent)
-                                            .tracking(0.5)
-                                        
-                                        Spacer()
-                                        
-                                        if focusStep.isCompleted {
-                                            Label("Completed", systemImage: "checkmark.circle.fill")
-                                                .font(.system(.caption, design: .default, weight: .medium))
-                                                .foregroundStyle(Theme.Colors.accent)
-                                        }
-                                    }
-                                    
+                                VStack(alignment: .leading, spacing: 10) {
                                     Text(focusStep.title)
-                                        .font(.system(.title3, design: .default, weight: .bold))
+                                        .font(.system(.title2, design: .default, weight: .bold))
                                         .foregroundStyle(Theme.Colors.primaryText)
-                                        .lineLimit(2)
                                         .multilineTextAlignment(.leading)
                                     
                                     Text(focusStep.shortSummary)
                                         .font(.system(.body, design: .default))
                                         .foregroundStyle(Theme.Colors.secondaryText)
-                                        .lineLimit(3)
+                                        .lineSpacing(3)
                                         .multilineTextAlignment(.leading)
                                     
-                                    HStack {
+                                    HStack(spacing: 6) {
                                         Text("View Guidance")
                                             .font(.system(.subheadline, design: .default, weight: .semibold))
                                             .foregroundStyle(Theme.Colors.accent)
-                                        Image(systemName: "arrow.right")
-                                            .font(.system(size: 12, weight: .semibold))
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 11, weight: .bold))
                                             .foregroundStyle(Theme.Colors.accent)
                                     }
                                     .padding(.top, 4)
                                 }
-                                .padding(20)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Theme.Colors.secondaryBackground)
-                                .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
-                                .padding(.horizontal, Theme.Spacing.screenHorizontal)
                             }
                             .buttonStyle(.plain)
                         }
+                        .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                        .padding(.top, 4)
                     }
+                    
+                    Divider()
+                        .padding(.horizontal, Theme.Spacing.screenHorizontal)
                     
                     // Immediate Hotline
                     EmergencyHotlineBanner()
                     
+                    Divider()
+                        .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                    
                     // Saved Items (Progressive Disclosure)
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 14) {
                         SectionHeader(
-                            title: "Saved for Quick Access",
-                            subtitle: "Direct access to contacts and places you trust"
+                            title: "Saved Resources",
+                            subtitle: "Quick access to locations and services you have bookmarked"
                         )
                         
                         if store.savedResources.isEmpty {
-                            Text("When you bookmark shelters, meal sites, or clinics in the Resources tab, they will appear here.")
+                            Text("When you save shelters, meal programs, or legal clinics from the Resources tab, they will appear here.")
                                 .font(.system(.subheadline, design: .default))
                                 .foregroundStyle(Theme.Colors.secondaryText)
+                                .lineSpacing(2)
                                 .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                                .padding(.vertical, 8)
                         } else {
                             VStack(spacing: 0) {
                                 ForEach(store.savedResources) { resource in
@@ -128,9 +102,9 @@ struct TodayView: View {
                         }
                     }
                     
-                    // Dignified Closing Thought / Reassurance
+                    // Dignified Closing Thought
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Housing stability takes time and resilience. You do not need to solve everything today.")
+                        Text("Housing stability takes time and patience. You do not need to solve everything at once.")
                             .font(.system(.footnote, design: .default))
                             .foregroundStyle(Theme.Colors.secondaryText)
                             .lineSpacing(3)
@@ -139,14 +113,15 @@ struct TodayView: View {
                     .padding(.bottom, Theme.Spacing.section)
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Today")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showingSettings = true
                     } label: {
                         Image(systemName: "info.circle")
-                            .font(.system(size: 16))
+                            .font(.system(size: 17))
                             .foregroundStyle(Theme.Colors.primaryText)
                     }
                     .accessibilityLabel("About BridgeHome")
@@ -157,4 +132,9 @@ struct TodayView: View {
             }
         }
     }
+}
+
+#Preview {
+    TodayView()
+        .environment(HousingStore())
 }
