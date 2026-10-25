@@ -94,4 +94,45 @@ final class HousingStoreTests: XCTestCase {
             XCTAssertEqual(updated?.personalNotes, "Case #98124 Assigned to Sarah")
         }
     }
+    
+    func testSupportedRegionBoundary() {
+        // Supported coordinates: Bergen County, Passaic County, and surrounding NJ/NY
+        let hackensack = CLLocationCoordinate2D(latitude: 40.8938, longitude: -74.0760)
+        let paterson = CLLocationCoordinate2D(latitude: 40.9161, longitude: -74.1702)
+        let clifton = CLLocationCoordinate2D(latitude: 40.8654, longitude: -74.1592)
+        let nyc = CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
+        
+        XCTAssertTrue(SupportedRegion.contains(coordinate: hackensack), "Hackensack, NJ must be supported")
+        XCTAssertTrue(SupportedRegion.contains(coordinate: paterson), "Paterson, NJ must be supported")
+        XCTAssertTrue(SupportedRegion.contains(coordinate: clifton), "Clifton, NJ must be supported")
+        XCTAssertTrue(SupportedRegion.contains(coordinate: nyc), "Surrounding NYC area must be supported")
+        
+        // Unsupported coordinates outside coverage zone
+        let sanFrancisco = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+        let philadelphia = CLLocationCoordinate2D(latitude: 39.9526, longitude: -75.1652)
+        let trenton = CLLocationCoordinate2D(latitude: 40.2171, longitude: -74.7429)
+        let losAngeles = CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437)
+        
+        XCTAssertFalse(SupportedRegion.contains(coordinate: sanFrancisco), "San Francisco must not be supported")
+        XCTAssertFalse(SupportedRegion.contains(coordinate: philadelphia), "Philadelphia must not be supported")
+        XCTAssertFalse(SupportedRegion.contains(coordinate: trenton), "Trenton must not be supported")
+        XCTAssertFalse(SupportedRegion.contains(coordinate: losAngeles), "Los Angeles must not be supported")
+    }
+    
+    func testDynamicResourceServiceRegionGate() async {
+        // Coordinate in unsupported region must return empty results
+        let unsupportedCoord = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+        let outsideResults = await DynamicResourceService.fetchNearbyResources(around: unsupportedCoord)
+        XCTAssertTrue(outsideResults.isEmpty, "Querying outside supported region must yield empty results")
+        
+        // Coordinate in Bergen/Passaic must return local anchor resources
+        let supportedCoord = SupportedRegion.center
+        let insideResults = await DynamicResourceService.fetchNearbyResources(around: supportedCoord)
+        XCTAssertFalse(insideResults.isEmpty, "Querying inside Bergen/Passaic must yield resources")
+        
+        for res in insideResults {
+            let coord = CLLocationCoordinate2D(latitude: res.coordinateLatitude, longitude: res.coordinateLongitude)
+            XCTAssertTrue(SupportedRegion.contains(coordinate: coord), "Resource \(res.name) coordinate must be within SupportedRegion")
+        }
+    }
 }

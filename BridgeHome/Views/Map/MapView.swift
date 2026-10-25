@@ -12,13 +12,12 @@ struct MapView: View {
     @State private var selectedResourceId: String? = nil
     @State private var showingDetail: Bool = false
     @State private var lastQueriedCoordinate: CLLocationCoordinate2D? = nil
+    @State private var isRegionSupported: Bool = true
     
-    @State private var cameraPosition: MapCameraPosition = .userLocation(
-        fallback: .camera(
-            MapCamera(
-                centerCoordinate: LocationManager.defaultCoordinate,
-                distance: 4000
-            )
+    @State private var cameraPosition: MapCameraPosition = .camera(
+        MapCamera(
+            centerCoordinate: LocationManager.defaultCoordinate,
+            distance: 12000
         )
     )
     
@@ -66,11 +65,14 @@ struct MapView: View {
                 }
                 .onMapCameraChange(frequency: .onEnd) { context in
                     let newCenter = context.region.center
+                    let isSupported = SupportedRegion.contains(coordinate: newCenter)
+                    let prevSupported = isRegionSupported
                     let prev = activeCoordinate
                     let locPrev = CLLocation(latitude: prev.latitude, longitude: prev.longitude)
                     let locNew = CLLocation(latitude: newCenter.latitude, longitude: newCenter.longitude)
-                    // If user moved view by more than 800m, auto-update locations for new visible region
-                    if locPrev.distance(from: locNew) > 800 {
+                    
+                    // If user moved view by more than 800m or crossed coverage boundary, auto-update
+                    if locPrev.distance(from: locNew) > 800 || isSupported != prevSupported || (discoveredResources.isEmpty && isSupported) {
                         lastQueriedCoordinate = newCenter
                         Task {
                             await fetchDynamicResources(around: newCenter)
@@ -85,8 +87,49 @@ struct MapView: View {
                 // Floating Top Controls (Google Maps-Style Search Bar & Filter Chips)
                 floatingTopBar
                 
-                // Floating Bottom Selected Resource Card
-                if let resource = selectedResource {
+                // Floating Bottom Indicator / Selected Resource Card
+                if !isRegionSupported {
+                    VStack {
+                        Spacer()
+                        VStack(spacing: 12) {
+                            HStack(spacing: 10) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundStyle(Theme.Colors.accent)
+                                
+                                Text("This location isn't supported yet")
+                                    .font(.system(.headline, design: .default, weight: .bold))
+                                    .foregroundStyle(Theme.Colors.primaryText)
+                            }
+                            
+                            Button {
+                                let center = SupportedRegion.center
+                                lastQueriedCoordinate = center
+                                withAnimation(.easeInOut(duration: 0.5)) {
+                                    cameraPosition = .camera(MapCamera(centerCoordinate: center, distance: 12000))
+                                }
+                                Task {
+                                    await fetchDynamicResources(around: center)
+                                }
+                            } label: {
+                                Text("View Bergen & Passaic, NJ")
+                                    .font(.system(.subheadline, design: .default, weight: .bold))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(Theme.Colors.accent)
+                                    .foregroundStyle(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            }
+                        }
+                        .padding(18)
+                        .background(Color(UIColor.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 4)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 12)
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else if let resource = selectedResource {
                     VStack {
                         Spacer()
                         MapFloatingResourceCard(
@@ -127,7 +170,7 @@ struct MapView: View {
                         let loc = locationManager.userLocation ?? LocationManager.defaultCoordinate
                         lastQueriedCoordinate = loc
                         withAnimation(.easeInOut(duration: 0.3)) {
-                            cameraPosition = .camera(MapCamera(centerCoordinate: loc, distance: 4000))
+                            cameraPosition = .camera(MapCamera(centerCoordinate: loc, distance: 12000))
                         }
                         Task { await fetchDynamicResources(around: loc) }
                     } label: {
@@ -154,7 +197,13 @@ struct MapView: View {
             }
             .task {
                 locationManager.requestAuthorizationAndLocation()
-                await fetchDynamicResources()
+                if let userLoc = locationManager.userLocation {
+                    lastQueriedCoordinate = userLoc
+                    cameraPosition = .camera(MapCamera(centerCoordinate: userLoc, distance: 12000))
+                    await fetchDynamicResources(around: userLoc)
+                } else {
+                    await fetchDynamicResources()
+                }
             }
             .onChange(of: store.activeMapCategory) { _, _ in
                 Task { await fetchDynamicResources() }
@@ -165,7 +214,7 @@ struct MapView: View {
                     if lastQueriedCoordinate == nil {
                         lastQueriedCoordinate = newCoord
                         withAnimation(.easeInOut(duration: 0.4)) {
-                            cameraPosition = .camera(MapCamera(centerCoordinate: newCoord, distance: 4000))
+                            cameraPosition = .camera(MapCamera(centerCoordinate: newCoord, distance: 12000))
                         }
                         Task { await fetchDynamicResources(around: newCoord) }
                     }
@@ -245,13 +294,30 @@ struct MapView: View {
     
     // MARK: - Dynamic Fetch Action
     private func fetchDynamicResources(around coordinate: CLLocationCoordinate2D? = nil) async {
-        isLoading = true
         let target = coordinate ?? activeCoordinate
+        let isSupported = SupportedRegion.contains(coordinate: target)
+        
+        await MainActor.run {
+            self.isRegionSupported = isSupported
+            if !isSupported {
+                self.discoveredResources = []
+                self.selectedResourceId = nil
+                self.isLoading = false
+            }
+        }
+        
+        guard isSupported else { return }
+        
+        await MainActor.run {
+            self.isLoading = true
+        }
+        
         let results = await DynamicResourceService.fetchNearbyResources(
             around: target,
             category: store.activeMapCategory,
             customQuery: searchText
         )
+        
         await MainActor.run {
             self.discoveredResources = results
             self.isLoading = false
