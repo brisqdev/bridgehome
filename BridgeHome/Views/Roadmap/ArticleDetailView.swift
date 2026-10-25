@@ -9,8 +9,9 @@ struct ArticleDetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
                 
                 // Header Meta
                 VStack(alignment: .leading, spacing: 8) {
@@ -61,7 +62,7 @@ struct ArticleDetailView: View {
                                 HStack(alignment: .top, spacing: 10) {
                                     Image(systemName: "checkmark.circle.fill")
                                         .font(.system(size: 15))
-                                        .foregroundStyle(Theme.Colors.primaryText)
+                                        .foregroundStyle(Theme.Colors.accent)
                                         .padding(.top, 1)
                                     Text(takeaway)
                                         .font(.system(.subheadline, design: .default, weight: .medium))
@@ -127,9 +128,73 @@ struct ArticleDetailView: View {
                     }
                 }
                 .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                .padding(.bottom, Theme.Spacing.section)
+                
+                // Similar Readings Section (Interconnected Web)
+                let similarArticles = store.relatedArticles(for: article)
+                if !similarArticles.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Similar Readings")
+                            .font(.system(.headline, design: .default, weight: .bold))
+                            .foregroundStyle(Theme.Colors.primaryText)
+                        
+                        VStack(spacing: 10) {
+                            ForEach(similarArticles) { similar in
+                                NavigationLink(destination: ArticleDetailView(article: similar)) {
+                                    HStack(alignment: .center, spacing: 12) {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(similar.title)
+                                                .font(.system(.subheadline, design: .default, weight: .bold))
+                                                .foregroundStyle(Theme.Colors.primaryText)
+                                                .multilineTextAlignment(.leading)
+                                                .lineLimit(2)
+                                            
+                                            HStack(spacing: 6) {
+                                                Text("\(similar.readTimeMinutes) min read")
+                                                    .font(.system(size: 11, weight: .medium))
+                                                    .foregroundStyle(Theme.Colors.secondaryText)
+                                                
+                                                if let tag = similar.stateTag {
+                                                    Text("•")
+                                                        .font(.system(size: 10))
+                                                        .foregroundStyle(Theme.Colors.secondaryText)
+                                                    Text(tag)
+                                                        .font(.system(size: 11, weight: .medium))
+                                                        .foregroundStyle(Theme.Colors.secondaryText)
+                                                }
+                                            }
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12, weight: .semibold))
+                                            .foregroundStyle(Theme.Colors.accent)
+                                    }
+                                    .padding(14)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Theme.Colors.cardBackground)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                    .padding(.top, 8)
+                    .id("similarReadingsSection")
+                }
+                
+                Spacer().frame(height: Theme.Spacing.section)
             }
         }
+        .onAppear {
+            if ProcessInfo.processInfo.arguments.contains("-scrollToBottom") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    proxy.scrollTo("similarReadingsSection", anchor: .bottom)
+                }
+            }
+        }
+    }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -138,7 +203,7 @@ struct ArticleDetailView: View {
                 } label: {
                     Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                         .font(.system(size: 16))
-                        .foregroundStyle(isBookmarked ? Theme.Colors.primaryText : Theme.Colors.secondaryText)
+                        .foregroundStyle(isBookmarked ? Theme.Colors.accent : Theme.Colors.secondaryText)
                 }
                 .accessibilityLabel(isBookmarked ? "Remove bookmark" : "Bookmark article")
             }

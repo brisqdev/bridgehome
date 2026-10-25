@@ -130,17 +130,17 @@ private struct SubstepRow: View {
             Button(action: onToggle) {
                 ZStack {
                     Circle()
-                        .strokeBorder(substep.isCompleted ? Theme.Colors.primaryText : Theme.Colors.secondaryText.opacity(0.4), lineWidth: 2)
+                        .strokeBorder(substep.isCompleted ? Theme.Colors.accent : Theme.Colors.secondaryText.opacity(0.4), lineWidth: 2)
                         .frame(width: 24, height: 24)
                     
                     if substep.isCompleted {
                         Circle()
-                            .fill(Theme.Colors.primaryText)
+                            .fill(Theme.Colors.accent)
                             .frame(width: 24, height: 24)
                         
                         Image(systemName: "checkmark")
                             .font(.system(size: 12, weight: .bold))
-                            .foregroundStyle(Color(UIColor.systemBackground))
+                            .foregroundStyle(Color.white)
                     }
                 }
                 .frame(width: 44, height: 44)
@@ -167,7 +167,7 @@ private struct SubstepRow: View {
                             Image(systemName: "arrow.up.right")
                         }
                         .font(.system(.caption, design: .default, weight: .bold))
-                        .foregroundStyle(Theme.Colors.primaryText)
+                        .foregroundStyle(Theme.Colors.accent)
                         .padding(.top, 4)
                     }
                 }

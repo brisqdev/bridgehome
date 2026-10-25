@@ -18,11 +18,11 @@ final class HousingStore {
     
     var contacts: [TrustedContact] = []
     
-    private let storageKey = "BridgeHome_UberStore_v2"
+    private let storageKey = "BridgeHome_UberStore_v3"
     
     init() {
         loadFromPersistence()
-        if resources.isEmpty || binderSteps.isEmpty || articles.isEmpty {
+        if resources.isEmpty || binderSteps.isEmpty || articles.count < 300 {
             loadDefaultData()
             saveToPersistence()
         }
@@ -94,6 +94,19 @@ final class HousingStore {
     
     func isArticleBookmarked(_ articleId: String) -> Bool {
         bookmarkedArticleIds.contains(articleId)
+    }
+    
+    func relatedArticles(for article: Article) -> [Article] {
+        let relatedSet = Set(article.relatedArticleIds)
+        var matches = articles.filter { relatedSet.contains($0.id) }
+        if matches.count < 3 {
+            let fallback = articles.filter { $0.category == article.category && $0.id != article.id }
+            for extra in fallback where !matches.contains(where: { $0.id == extra.id }) {
+                matches.append(extra)
+                if matches.count >= 4 { break }
+            }
+        }
+        return Array(matches.prefix(4))
     }
     
     func addContact(_ contact: TrustedContact) {
@@ -488,171 +501,8 @@ final class HousingStore {
             )
         ]
         
-        // Comprehensive Articles for the Guide Screen (Article Menu View)
-        articles = [
-            // Legal & State Laws
-            Article(
-                id: "art_state_laws",
-                title: "State-by-State Tenant Protections & Eviction Notice Laws",
-                category: .legalAndStateLaws,
-                stateTag: "CA, NY, TX, FL",
-                readTimeMinutes: 5,
-                overview: "Understanding eviction notice windows, source-of-income laws, and rent gouging caps across major US states.",
-                sections: [
-                    ArticleSection(
-                        heading: "Notice Periods Before Court Filings",
-                        body: "Landlords cannot evict you without court authorization. Notice to Quit periods differ significantly by state:",
-                        bulletPoints: [
-                            "California: 3-Day Notice to Pay or Quit (AB 1482 requires 'just cause' for tenancies over 12 months).",
-                            "New York: 14-Day Written Demand for Rent required before any summary eviction filing.",
-                            "Texas: 3-Day Notice to Vacate (unless written lease explicitly specifies a 24-hour notice).",
-                            "Florida: 3-Day Notice to Pay or Vacate excluding weekends and court holidays."
-                        ],
-                        callout: "Never vacate your home based solely on verbal threats or text messages. Self-help evictions (changing locks, shutting off water/power) are illegal felonies in all 50 states."
-                    ),
-                    ArticleSection(
-                        heading: "Source of Income Protections (Vouchers)",
-                        body: "Several states legally prohibit landlords from refusing Section 8 vouchers or rental subsidies. In California (SB 329), New York (State Human Rights Law), and New Jersey, refusing to accept an applicant based on voucher payment is illegal discrimination.",
-                        bulletPoints: [
-                            "Landlords cannot advertise 'No Section 8' or 'No Vouchers'.",
-                            "Income requirements must be calculated only on your portion of the rent, not the full rent amount."
-                        ]
-                    )
-                ],
-                keyTakeaways: [
-                    "Self-help lockouts are illegal nationwide",
-                    "Notice to Quit windows range from 3 to 14 days depending on state",
-                    "CA and NY prohibit voucher discrimination by law"
-                ]
-            ),
-            Article(
-                id: "art_security_deposits",
-                title: "Security Deposit Return Caps, Limits & Deductions",
-                category: .legalAndStateLaws,
-                stateTag: "National",
-                readTimeMinutes: 4,
-                overview: "How to legally protect your deposit and demand return within statutory state deadlines.",
-                sections: [
-                    ArticleSection(
-                        heading: "Maximum Deposit Limits by Law",
-                        body: "Many states cap security deposits to 1 month's rent (e.g. California AB 12 effective 2024, New York Housing Stability Act). Landlords cannot demand 3 or 4 months upfront.",
-                        bulletPoints: [
-                            "Normal wear and tear (faded paint, minor carpet tracking) cannot be deducted.",
-                            "Landlords must provide an itemized list of deductions with receipts within 14 to 30 days of moving out."
-                        ]
-                    )
-                ],
-                keyTakeaways: [
-                    "Most progressive states limit deposits to 1 month's rent",
-                    "Always demand itemized receipts within 21 days",
-                    "Pre-move walkthrough photos are your best legal shield"
-                ]
-            ),
-            // Community Programs
-            Article(
-                id: "art_community_action",
-                title: "How to Find Community Action Agencies & Mutual Aid Groups",
-                category: .communityPrograms,
-                stateTag: "National",
-                readTimeMinutes: 4,
-                overview: "Connecting with local Community Action Partnerships (CAP), local mutual aid pods, and church pantries.",
-                sections: [
-                    ArticleSection(
-                        heading: "What are Community Action Agencies?",
-                        body: "Established under the Economic Opportunity Act, over 1,000 local Community Action Agencies operate nationwide. They manage federal Emergency Solutions Grants, weatherization assistance, and rental bridge programs.",
-                        bulletPoints: [
-                            "Locate your county agency via CommunityActionPartnership.com",
-                            "Walk in for utility emergency grants and security deposit vouchers",
-                            "Connect with peer housing navigators who maintain local landlord relationships"
-                        ]
-                    ),
-                    ArticleSection(
-                        heading: "Joining Local Mutual Aid Groups",
-                        body: "Mutual aid groups operate without bureaucracy. Search Facebook, Instagram, or local community centers for 'Mutual Aid [Your City]' to access free daily meals, baby supplies, tents, and community rides."
-                    )
-                ],
-                keyTakeaways: [
-                    "Over 1,000 CAP agencies provide direct cash and housing grants",
-                    "Mutual aid networks provide immediate supplies without paperwork"
-                ]
-            ),
-            // Documents Needed
-            Article(
-                id: "art_id_waivers",
-                title: "How to Get a Free State ID Using Homeless Fee Waivers",
-                category: .documentsNeeded,
-                stateTag: "National",
-                readTimeMinutes: 5,
-                overview: "Step-by-step instructions for getting state photo identification without paying DMV fees.",
-                sections: [
-                    ArticleSection(
-                        heading: "The Homeless Status Verification Form",
-                        body: "Most DMVs (including CA, NY, IL, TX) have established fee waiver programs. An authorized agency (shelter, social services, or legal aid) verifies your housing status on official letterhead or state form.",
-                        bulletPoints: [
-                            "California: DMV Form DL 933 signed by designated shelter liaison",
-                            "New York: Form MV-44 with approved homeless services waiver",
-                            "Ask the DMV clerk for an immediate temporary paper ID while the plastic card is mailed to a shelter or general delivery"
-                        ]
-                    )
-                ],
-                keyTakeaways: [
-                    "Never pay $35+ for an ID without checking state fee waiver laws",
-                    "Use shelter or postal general delivery if you lack an address",
-                    "Temporary paper IDs are valid for bank account opening and benefits"
-                ]
-            ),
-            // Safety Instructions
-            Article(
-                id: "art_safe_parking",
-                title: "Safe Vehicle Living: Legal Parking, Heat & Safety Protocols",
-                category: .safetyInstructions,
-                stateTag: "National",
-                readTimeMinutes: 4,
-                overview: "Essential safety guidance for sleeping in a vehicle, finding designated safe lots, and avoiding tickets.",
-                sections: [
-                    ArticleSection(
-                        heading: "Designated Safe Parking Programs",
-                        body: "Many cities now operate permitted Safe Parking Programs with 24/7 security, restrooms, water, and on-site housing navigators.",
-                        bulletPoints: [
-                            "Call 2-1-1 to ask for the nearest designated Safe Parking lot",
-                            "Never run a vehicle engine overnight for heating due to carbon monoxide risk; use sub-zero rated sleeping bags and insulated window shades",
-                            "Keep vehicle registration and insurance up to date to avoid towing"
-                        ]
-                    )
-                ],
-                keyTakeaways: [
-                    "Safe parking lots provide overnight security and restrooms",
-                    "Never run engines inside closed spaces or while sleeping",
-                    "Window insulation ensures both warmth and privacy"
-                ]
-            ),
-            // Families & Situations
-            Article(
-                id: "art_family_rights",
-                title: "McKinney-Vento Act: Education Rights for Families Experiencing Homelessness",
-                category: .familyAndSituations,
-                stateTag: "Federal",
-                readTimeMinutes: 4,
-                overview: "Federal protections guaranteeing children can remain in their school with free transportation.",
-                sections: [
-                    ArticleSection(
-                        heading: "Your Children's Rights Under Federal Law",
-                        body: "Under the McKinney-Vento Homeless Assistance Act, children who lack a fixed, regular, and adequate nighttime residence have guaranteed rights:",
-                        bulletPoints: [
-                            "Right to remain in their 'school of origin' even if you move into a shelter across town",
-                            "Free district-provided transportation to and from the school of origin",
-                            "Immediate enrollment even without proof of residency, birth certificates, or immunization records",
-                            "Free daily breakfast and lunch programs"
-                        ]
-                    )
-                ],
-                keyTakeaways: [
-                    "Schools must provide free transportation back to school of origin",
-                    "Immediate enrollment is federally protected without paperwork",
-                    "Every school district has a designated Homeless Liaison"
-                ]
-            )
-        ]
+        // Comprehensive 300+ Articles generated from database
+        articles = ArticleDatabase.generateAllArticles()
         
         // Trusted Contacts
         contacts = [

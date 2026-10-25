@@ -32,7 +32,7 @@ struct BinderView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.section) {
                     
-                    // Header Title
+                    // Header Title (NO subtext!)
                     Text("Binder")
                         .font(.system(.largeTitle, design: .default, weight: .bold))
                         .foregroundStyle(Theme.Colors.primaryText)
@@ -60,7 +60,7 @@ struct BinderView: View {
                                     .frame(height: 8)
                                 
                                 RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                    .fill(Theme.Colors.primaryText)
+                                    .fill(Theme.Colors.accent)
                                     .frame(width: geo.size.width * CGFloat(progressFraction), height: 8)
                                     .animation(.spring(response: 0.4), value: progressFraction)
                             }
@@ -83,39 +83,33 @@ struct BinderView: View {
                             ForEach(store.binderSteps) { step in
                                 NavigationLink(value: step.id) {
                                     HStack(spacing: 14) {
-                                        // Phase Number Badge
-                                        ZStack {
-                                            Circle()
-                                                .fill(step.isFullyCompleted ? Theme.Colors.primaryText : Theme.Colors.cardBackground)
-                                                .frame(width: 38, height: 38)
-                                            
-                                            if step.isFullyCompleted {
-                                                Image(systemName: "checkmark")
-                                                    .font(.system(size: 14, weight: .bold))
-                                                    .foregroundStyle(Color(UIColor.systemBackground))
-                                            } else {
-                                                Text("\(step.phaseNumber)")
-                                                    .font(.system(.subheadline, design: .default, weight: .bold))
-                                                    .foregroundStyle(Theme.Colors.primaryText)
-                                            }
+                                        // Clean Numeral (NO circle background, NO AI boxes!)
+                                        if step.isFullyCompleted {
+                                            Image(systemName: "checkmark")
+                                                .font(.system(size: 16, weight: .bold))
+                                                .foregroundStyle(Theme.Colors.accent)
+                                                .frame(width: 28)
+                                        } else {
+                                            Text(String(format: "%02d", step.phaseNumber))
+                                                .font(.system(size: 17, weight: .bold, design: .rounded))
+                                                .foregroundStyle(Theme.Colors.accent)
+                                                .frame(width: 28)
                                         }
                                         
-                                        // Task Info (Title + concise count, no walls of text)
-                                        VStack(alignment: .leading, spacing: 3) {
-                                            Text(step.title)
-                                                .font(.system(.body, design: .default, weight: .semibold))
-                                                .foregroundStyle(Theme.Colors.primaryText)
-                                                .lineLimit(1)
-                                            
-                                            Text("\(step.completedSubstepsCount) of \(step.substeps.count) tasks completed")
-                                                .font(.system(.caption, design: .default, weight: .medium))
-                                                .foregroundStyle(Theme.Colors.secondaryText)
-                                        }
+                                        // Clean Title (NO crowded subtext!)
+                                        Text(step.title)
+                                            .font(.system(.body, design: .default, weight: .semibold))
+                                            .foregroundStyle(Theme.Colors.primaryText)
+                                            .lineLimit(1)
                                         
                                         Spacer()
                                         
+                                        Text("\(step.completedSubstepsCount)/\(step.substeps.count)")
+                                            .font(.system(.subheadline, design: .default, weight: .semibold))
+                                            .foregroundStyle(Theme.Colors.secondaryText)
+                                        
                                         Image(systemName: "chevron.right")
-                                            .font(.system(size: 13, weight: .semibold))
+                                            .font(.system(size: 12, weight: .semibold))
                                             .foregroundStyle(Theme.Colors.secondaryText)
                                     }
                                     .padding(16)

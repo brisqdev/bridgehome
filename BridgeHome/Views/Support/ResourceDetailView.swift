@@ -56,8 +56,8 @@ struct ResourceDetailView: View {
                             .font(.system(.subheadline, design: .default, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(Theme.Colors.primaryText)
-                            .foregroundStyle(Color(UIColor.systemBackground))
+                            .background(Theme.Colors.accent)
+                            .foregroundStyle(Color.white)
                             .clipShape(Capsule())
                         }
                     }
@@ -88,7 +88,7 @@ struct ResourceDetailView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .frame(width: 44, height: 44)
                             .background(Theme.Colors.secondaryBackground)
-                            .foregroundStyle(isSaved ? Theme.Colors.primaryText : Theme.Colors.secondaryText)
+                            .foregroundStyle(isSaved ? Theme.Colors.accent : Theme.Colors.secondaryText)
                             .clipShape(Circle())
                     }
                     .accessibilityLabel(isSaved ? "Remove bookmark" : "Bookmark resource")

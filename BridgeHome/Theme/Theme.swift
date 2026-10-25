@@ -1,15 +1,12 @@
 import SwiftUI
 
-/// BridgeHome visual theme:
-/// Minimalist, high-contrast, black and white basic UI style.
-/// Understated, polished, familiar, and effortless to navigate.
 enum Theme {
     // MARK: - Spacing Tokens
     enum Spacing {
-        static let screenHorizontal: CGFloat = 16
+        static let screenHorizontal: CGFloat = 20
         static let section: CGFloat = 24
-        static let element: CGFloat = 14
-        static let row: CGFloat = 12
+        static let element: CGFloat = 16
+        static let row: CGFloat = 14
         static let compact: CGFloat = 8
         static let tight: CGFloat = 4
     }
@@ -24,10 +21,10 @@ enum Theme {
     
     // MARK: - Colors
     enum Colors {
-        /// Monochromatic high-contrast accent (Black in Light Mode, White in Dark Mode)
+        /// The rich rose-crimson accent color from the very first iteration
         static let accent = Color.accentColor
         
-        /// Crisp black / white primary text
+        /// Crisp primary text
         static let primaryText = Color.primary
         
         /// Muted secondary text
@@ -39,17 +36,16 @@ enum Theme {
         /// Default screen canvas
         static let background = Color(UIColor.systemBackground)
         
-        /// Clean neutral card surface (#F4F4F4 in light, #1C1C1E in dark)
+        /// Card surface
         static let cardBackground = Color(UIColor.secondarySystemBackground)
         
-        /// Aliases for backward compatibility
+        /// Secondary background
         static let secondaryBackground = Color(UIColor.secondarySystemBackground)
-        static let calloutBackground = Color(UIColor.tertiarySystemFill)
+        
+        /// Soft crimson callout background
+        static let calloutBackground = Color.accentColor.opacity(0.12)
         
         /// Elevated surface
         static let elevatedBackground = Color(UIColor.tertiarySystemBackground)
-        
-        /// Soft pill background
-        static let pillBackground = Color(UIColor.secondarySystemBackground)
     }
 }

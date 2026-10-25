@@ -40,4 +40,29 @@ struct Article: Identifiable, Codable, Equatable, Hashable {
     var sections: [ArticleSection]
     var keyTakeaways: [String]
     var isBookmarked: Bool = false
+    var relatedArticleIds: [String] = []
+    
+    init(
+        id: String,
+        title: String,
+        category: ArticleCategory,
+        stateTag: String? = nil,
+        readTimeMinutes: Int = 4,
+        overview: String,
+        sections: [ArticleSection] = [],
+        keyTakeaways: [String] = [],
+        isBookmarked: Bool = false,
+        relatedArticleIds: [String] = []
+    ) {
+        self.id = id
+        self.title = title
+        self.category = category
+        self.stateTag = stateTag
+        self.readTimeMinutes = readTimeMinutes
+        self.overview = overview
+        self.sections = sections
+        self.keyTakeaways = keyTakeaways
+        self.isBookmarked = isBookmarked
+        self.relatedArticleIds = relatedArticleIds
+    }
 }

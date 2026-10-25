@@ -14,6 +14,7 @@
 		1B0D783BA83C6D047F219EE5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24E1F0C0AEBF3E6DB09E45 /* HomeView.swift */; };
 		273E05EDE8EA63BAB9359638 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7A6FA5FE96A14A34E1856 /* LocationManager.swift */; };
 		34F3F93BE1CFD85690E0FDD6 /* AddContactSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725B9134479F0C1459DF0195 /* AddContactSheet.swift */; };
+		3A2FA9FCB6D9650BFA93790B /* ArticleDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31B8D9085B708E391B19307 /* ArticleDatabase.swift */; };
 		5A665B099EF4208D79A80DD0 /* ArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAFAF8A342EA1365C9F3408 /* ArticleDetailView.swift */; };
 		65D802E61CB57358D758D401 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26418F426BCB57EEF657C5D0 /* MainTabView.swift */; };
 		6F0D6AE1549EE394D5FA8FCC /* HousingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C544B1D46C9B4DBE4EBA7 /* HousingStore.swift */; };
@@ -71,6 +72,7 @@
 		DDA7A6FA5FE96A14A34E1856 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E65B0A4074676C738738E28E /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		ECC9170AA37DFA92776F520B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F31B8D9085B708E391B19307 /* ArticleDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDatabase.swift; sourceTree = "<group>"; };
 		F5D4CC91724A213E984BD441 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -209,6 +211,7 @@
 		D848B228AB8ADDAD8FC78628 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F31B8D9085B708E391B19307 /* ArticleDatabase.swift */,
 				2AFE01DA500F6C92B6588E79 /* DynamicResourceService.swift */,
 				B22C544B1D46C9B4DBE4EBA7 /* HousingStore.swift */,
 				DDA7A6FA5FE96A14A34E1856 /* LocationManager.swift */,
@@ -332,6 +335,7 @@
 			files = (
 				34F3F93BE1CFD85690E0FDD6 /* AddContactSheet.swift in Sources */,
 				B3779C35D2395C3802FFFD57 /* Article.swift in Sources */,
+				3A2FA9FCB6D9650BFA93790B /* ArticleDatabase.swift in Sources */,
 				5A665B099EF4208D79A80DD0 /* ArticleDetailView.swift in Sources */,
 				D670765DEB5389451D68BF8B /* BinderStep.swift in Sources */,
 				A0ADEF0889DE4F4E3E83ED8C /* BinderView.swift in Sources */,

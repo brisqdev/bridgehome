@@ -61,7 +61,7 @@ struct MainTabView: View {
                 }
                 .tag(Tab.guide)
         }
-        .tint(Theme.Colors.primaryText)
+        .tint(Theme.Colors.accent)
     }
 }
 

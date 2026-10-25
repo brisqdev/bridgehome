@@ -11,6 +11,7 @@ struct MapView: View {
     @State private var searchText: String = ""
     @State private var selectedResourceId: String? = nil
     @State private var showingDetail: Bool = false
+    @State private var lastQueriedCoordinate: CLLocationCoordinate2D? = nil
     
     @State private var cameraPosition: MapCameraPosition = .userLocation(
         fallback: .camera(
@@ -22,7 +23,7 @@ struct MapView: View {
     )
     
     private var activeCoordinate: CLLocationCoordinate2D {
-        locationManager.userLocation ?? LocationManager.defaultCoordinate
+        lastQueriedCoordinate ?? locationManager.userLocation ?? LocationManager.defaultCoordinate
     }
     
     private var selectedResource: Resource? {
@@ -33,7 +34,7 @@ struct MapView: View {
         NavigationStack {
             ZStack(alignment: .top) {
                 
-                // Full Screen Interactive Map
+                // Full Screen Interactive Map with Dynamic Pan/Zoom Region Detection
                 Map(position: $cameraPosition) {
                     UserAnnotation()
                     
@@ -46,20 +47,33 @@ struct MapView: View {
                             } label: {
                                 ZStack {
                                     Circle()
-                                        .fill(selectedResourceId == resource.id ? Theme.Colors.primaryText : Color(UIColor.systemBackground))
-                                        .frame(width: 38, height: 38)
+                                        .fill(selectedResourceId == resource.id ? Theme.Colors.accent : Color(UIColor.systemBackground))
+                                        .frame(width: 36, height: 36)
                                         .overlay(
                                             Circle()
-                                                .stroke(selectedResourceId == resource.id ? Theme.Colors.primaryText : Theme.Colors.secondaryText.opacity(0.3), lineWidth: 1.5)
+                                                .stroke(selectedResourceId == resource.id ? Theme.Colors.accent : Color(UIColor.separator), lineWidth: 1.5)
                                         )
-                                        .shadow(color: .black.opacity(0.18), radius: 5, x: 0, y: 2)
+                                        .shadow(color: .black.opacity(0.18), radius: 4, x: 0, y: 2)
                                     
                                     Image(systemName: resource.category.iconName)
-                                        .font(.system(size: 15, weight: .bold))
-                                        .foregroundStyle(selectedResourceId == resource.id ? Color(UIColor.systemBackground) : Theme.Colors.primaryText)
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundStyle(selectedResourceId == resource.id ? Color.white : Theme.Colors.accent)
                                 }
                             }
                             .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .onMapCameraChange(frequency: .onEnd) { context in
+                    let newCenter = context.region.center
+                    let prev = activeCoordinate
+                    let locPrev = CLLocation(latitude: prev.latitude, longitude: prev.longitude)
+                    let locNew = CLLocation(latitude: newCenter.latitude, longitude: newCenter.longitude)
+                    // If user moved view by more than 800m, auto-update locations for new visible region
+                    if locPrev.distance(from: locNew) > 800 {
+                        lastQueriedCoordinate = newCenter
+                        Task {
+                            await fetchDynamicResources(around: newCenter)
                         }
                     }
                 }
@@ -68,7 +82,7 @@ struct MapView: View {
                     MapScaleView()
                 }
                 
-                // Floating Top Controls (Search Bar + Category Filters)
+                // Floating Top Controls (Google Maps-Style Search Bar & Filter Chips)
                 floatingTopBar
                 
                 // Floating Bottom Selected Resource Card
@@ -92,7 +106,7 @@ struct MapView: View {
                         HStack(spacing: 8) {
                             ProgressView()
                                 .tint(Theme.Colors.primaryText)
-                            Text("Searching facilities...")
+                            Text("Updating region...")
                                 .font(.system(.caption, design: .default, weight: .semibold))
                                 .foregroundStyle(Theme.Colors.primaryText)
                         }
@@ -110,22 +124,18 @@ struct MapView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         locationManager.refreshLocation()
-                        if let loc = locationManager.userLocation {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                cameraPosition = .camera(MapCamera(centerCoordinate: loc, distance: 4000))
-                            }
-                        } else {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                cameraPosition = .userLocation(fallback: .camera(MapCamera(centerCoordinate: LocationManager.defaultCoordinate, distance: 4000)))
-                            }
+                        let loc = locationManager.userLocation ?? LocationManager.defaultCoordinate
+                        lastQueriedCoordinate = loc
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            cameraPosition = .camera(MapCamera(centerCoordinate: loc, distance: 4000))
                         }
-                        Task { await fetchDynamicResources() }
+                        Task { await fetchDynamicResources(around: loc) }
                     } label: {
                         Image(systemName: "location.fill")
                             .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(Theme.Colors.primaryText)
+                            .foregroundStyle(Theme.Colors.accent)
                     }
-                    .accessibilityLabel("Recenter on current location")
+                    .accessibilityLabel("Recenter on device location")
                 }
             }
             .sheet(isPresented: $showingDetail) {
@@ -152,16 +162,19 @@ struct MapView: View {
             .onChange(of: locationManager.userLocation?.latitude) { _, newLat in
                 if let newLat = newLat, let newLon = locationManager.userLocation?.longitude {
                     let newCoord = CLLocationCoordinate2D(latitude: newLat, longitude: newLon)
-                    withAnimation(.easeInOut(duration: 0.4)) {
-                        cameraPosition = .camera(MapCamera(centerCoordinate: newCoord, distance: 4000))
+                    if lastQueriedCoordinate == nil {
+                        lastQueriedCoordinate = newCoord
+                        withAnimation(.easeInOut(duration: 0.4)) {
+                            cameraPosition = .camera(MapCamera(centerCoordinate: newCoord, distance: 4000))
+                        }
+                        Task { await fetchDynamicResources(around: newCoord) }
                     }
-                    Task { await fetchDynamicResources() }
                 }
             }
         }
     }
     
-    // MARK: - Floating Top Bar
+    // MARK: - Google Maps-Style Floating Top Bar
     private var floatingTopBar: some View {
         VStack(spacing: 8) {
             
@@ -195,7 +208,7 @@ struct MapView: View {
             .shadow(color: .black.opacity(0.12), radius: 6, x: 0, y: 2)
             .padding(.horizontal, 16)
             
-            // Filter Pills
+            // Google Maps-Style Filter Pills
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(ResourceCategory.allCases) { category in
@@ -208,16 +221,16 @@ struct MapView: View {
                                         .font(.system(size: 11, weight: .bold))
                                 }
                                 Text(category.rawValue)
-                                    .font(.system(.subheadline, design: .default, weight: .semibold))
+                                    .font(.system(.subheadline, design: .default, weight: store.activeMapCategory == category ? .bold : .medium))
                             }
                             .padding(.horizontal, 14)
                             .padding(.vertical, 7)
-                            .background(store.activeMapCategory == category ? Theme.Colors.primaryText : Color(UIColor.systemBackground))
-                            .foregroundStyle(store.activeMapCategory == category ? Color(UIColor.systemBackground) : Theme.Colors.primaryText)
+                            .background(store.activeMapCategory == category ? Theme.Colors.accent : Color(UIColor.systemBackground))
+                            .foregroundStyle(store.activeMapCategory == category ? Color.white : Theme.Colors.primaryText)
                             .clipShape(Capsule())
                             .overlay(
                                 Capsule()
-                                    .stroke(Theme.Colors.secondaryText.opacity(0.2), lineWidth: store.activeMapCategory == category ? 0 : 1)
+                                    .stroke(store.activeMapCategory == category ? Color.clear : Color(UIColor.separator), lineWidth: 1)
                             )
                             .shadow(color: .black.opacity(0.06), radius: 3, x: 0, y: 1)
                         }
@@ -231,10 +244,11 @@ struct MapView: View {
     }
     
     // MARK: - Dynamic Fetch Action
-    private func fetchDynamicResources() async {
+    private func fetchDynamicResources(around coordinate: CLLocationCoordinate2D? = nil) async {
         isLoading = true
+        let target = coordinate ?? activeCoordinate
         let results = await DynamicResourceService.fetchNearbyResources(
-            around: activeCoordinate,
+            around: target,
             category: store.activeMapCategory,
             customQuery: searchText
         )
@@ -255,16 +269,11 @@ private struct MapFloatingResourceCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top, spacing: 12) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(Theme.Colors.cardBackground)
-                        .frame(width: 48, height: 48)
-                    
-                    Image(systemName: resource.category.iconName)
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(Theme.Colors.primaryText)
-                }
+            HStack(alignment: .center, spacing: 12) {
+                Image(systemName: resource.category.iconName)
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundStyle(Theme.Colors.accent)
+                    .frame(width: 32)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {
@@ -303,8 +312,8 @@ private struct MapFloatingResourceCard: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
-                        .background(Theme.Colors.primaryText)
-                        .foregroundStyle(Color(UIColor.systemBackground))
+                        .background(Theme.Colors.accent)
+                        .foregroundStyle(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     }
                 }

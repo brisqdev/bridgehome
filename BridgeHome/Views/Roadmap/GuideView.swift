@@ -3,6 +3,17 @@ import SwiftUI
 struct GuideView: View {
     @Environment(HousingStore.self) private var store
     @State private var searchText: String = ""
+    @State private var navigationPath = NavigationPath()
+    
+    init() {
+        let args = ProcessInfo.processInfo.arguments
+        if let artIndex = args.firstIndex(of: "-article"), artIndex + 1 < args.count {
+            let articleId = args[artIndex + 1]
+            var path = NavigationPath()
+            path.append(articleId)
+            _navigationPath = State(initialValue: path)
+        }
+    }
     
     private var filteredArticles: [Article] {
         if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -20,7 +31,7 @@ struct GuideView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     
@@ -37,7 +48,7 @@ struct GuideView: View {
                             .font(.system(size: 15))
                             .foregroundStyle(Theme.Colors.secondaryText)
                         
-                        TextField("Search articles...", text: $searchText)
+                        TextField("Search 300+ articles...", text: $searchText)
                             .font(.system(.subheadline, design: .default))
                         
                         if !searchText.isEmpty {
@@ -59,7 +70,7 @@ struct GuideView: View {
                     // Clean Article List (Just article view, no pills, no state tags)
                     LazyVStack(spacing: 12) {
                         ForEach(filteredArticles) { article in
-                            NavigationLink(destination: ArticleDetailView(article: article)) {
+                            NavigationLink(value: article.id) {
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack(alignment: .top) {
                                         Text(article.title)
@@ -71,7 +82,7 @@ struct GuideView: View {
                                         
                                         Image(systemName: "chevron.right")
                                             .font(.system(size: 12, weight: .semibold))
-                                            .foregroundStyle(Theme.Colors.secondaryText)
+                                            .foregroundStyle(Theme.Colors.accent)
                                             .padding(.top, 4)
                                     }
                                     
@@ -96,6 +107,11 @@ struct GuideView: View {
             }
             .background(Color(UIColor.systemBackground))
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: String.self) { articleId in
+                if let article = store.articles.first(where: { $0.id == articleId }) {
+                    ArticleDetailView(article: article)
+                }
+            }
         }
     }
 }
