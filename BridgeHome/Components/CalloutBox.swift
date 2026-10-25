@@ -10,7 +10,7 @@ struct CalloutBox: View {
         HStack(alignment: .top, spacing: Theme.Spacing.element) {
             Image(systemName: icon)
                 .font(.system(size: 18))
-                .foregroundStyle(Theme.Colors.accent)
+                .foregroundStyle(Theme.Colors.primaryText)
                 .padding(.top, 2)
                 .accessibilityHidden(true)
             

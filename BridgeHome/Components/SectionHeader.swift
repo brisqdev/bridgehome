@@ -20,7 +20,7 @@ struct SectionHeader: View {
                     Button(action: action) {
                         Text(actionTitle)
                             .font(.system(.subheadline, design: .default, weight: .semibold))
-                            .foregroundStyle(Theme.Colors.accent)
+                            .foregroundStyle(Theme.Colors.primaryText)
                     }
                 }
             }

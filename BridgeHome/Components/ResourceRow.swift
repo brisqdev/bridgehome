@@ -16,7 +16,7 @@ struct ResourceRow: View {
                 
                 Image(systemName: resource.category.iconName)
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(resource.isEmergencyHotline ? Theme.Colors.accent : Theme.Colors.primaryText)
+                    .foregroundStyle(Theme.Colors.primaryText)
             }
             .accessibilityHidden(true)
             
@@ -35,7 +35,7 @@ struct ResourceRow: View {
                         Button(action: onToggleSave) {
                             Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
                                 .font(.system(size: 16))
-                                .foregroundStyle(isSaved ? Theme.Colors.accent : Theme.Colors.secondaryText)
+                                .foregroundStyle(isSaved ? Theme.Colors.primaryText : Theme.Colors.secondaryText)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
                         }

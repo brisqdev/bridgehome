@@ -3,128 +3,66 @@ import SwiftUI
 struct MainTabView: View {
     @Environment(HousingStore.self) private var store
     @State private var selectedTab: Tab
-    @State private var initialStepId: String? = nil
-    @State private var initialResourceId: String? = nil
-    @State private var initialDocumentId: String? = nil
     
     enum Tab: String, Hashable {
-        case today
-        case guide
-        case resources
+        case home
+        case map
         case binder
+        case guide
     }
     
     init() {
         let args = ProcessInfo.processInfo.arguments
         if let tabIndex = args.firstIndex(of: "-tab"), tabIndex + 1 < args.count {
-            let tabArg = args[tabIndex + 1]
-            _selectedTab = State(initialValue: Tab(rawValue: tabArg) ?? .today)
+            let tabArg = args[tabIndex + 1].lowercased()
+            if let tab = Tab(rawValue: tabArg) {
+                _selectedTab = State(initialValue: tab)
+            } else if tabArg == "0" || tabArg == "home" {
+                _selectedTab = State(initialValue: .home)
+            } else if tabArg == "1" || tabArg == "map" {
+                _selectedTab = State(initialValue: .map)
+            } else if tabArg == "2" || tabArg == "binder" {
+                _selectedTab = State(initialValue: .binder)
+            } else if tabArg == "3" || tabArg == "guide" || tabArg == "handbook" {
+                _selectedTab = State(initialValue: .guide)
+            } else {
+                _selectedTab = State(initialValue: .home)
+            }
         } else {
-            _selectedTab = State(initialValue: .today)
-        }
-        
-        if let screenIndex = args.firstIndex(of: "-step"), screenIndex + 1 < args.count {
-            _initialStepId = State(initialValue: args[screenIndex + 1])
-        }
-        if let resIndex = args.firstIndex(of: "-resource"), resIndex + 1 < args.count {
-            _initialResourceId = State(initialValue: args[resIndex + 1])
-        }
-        if let docIndex = args.firstIndex(of: "-document"), docIndex + 1 < args.count {
-            _initialDocumentId = State(initialValue: args[docIndex + 1])
+            _selectedTab = State(initialValue: .home)
         }
     }
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            TodayView()
-                .tabItem {
-                    Label("Today", systemImage: selectedTab == .today ? "house.fill" : "house")
-                }
-                .tag(Tab.today)
+            HomeView(onNavigateToTab: { tab in
+                selectedTab = tab
+            })
+            .tabItem {
+                Label("Home", systemImage: "house.fill")
+            }
+            .tag(Tab.home)
             
-            GuideView()
+            MapView()
                 .tabItem {
-                    Label("Guide", systemImage: selectedTab == .guide ? "map.fill" : "map")
+                    Label("Map", systemImage: "map.fill")
                 }
-                .tag(Tab.guide)
-            
-            ResourcesView()
-                .tabItem {
-                    Label("Resources", systemImage: selectedTab == .resources ? "building.2.fill" : "building.2")
-                }
-                .tag(Tab.resources)
+                .tag(Tab.map)
             
             BinderView()
                 .tabItem {
-                    Label("Binder", systemImage: selectedTab == .binder ? "folder.fill" : "folder")
+                    Label("Binder", systemImage: "folder.fill")
                 }
                 .tag(Tab.binder)
-        }
-        .tint(Theme.Colors.accent)
-        .sheet(item: Binding(
-            get: { initialStepId.map { StepSheetItem(id: $0) } },
-            set: { initialStepId = $0?.id }
-        )) { item in
-            NavigationStack {
-                StepDetailView(stepId: item.id)
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Done") {
-                                initialStepId = nil
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(item: Binding(
-            get: {
-                if let resId = initialResourceId, let res = store.resources.first(where: { $0.id == resId }) {
-                    return ResourceSheetItem(resource: res)
+            
+            GuideView()
+                .tabItem {
+                    Label("Handbook", systemImage: "book.closed.fill")
                 }
-                return nil
-            },
-            set: { initialResourceId = $0?.resource.id }
-        )) { item in
-            NavigationStack {
-                ResourceDetailView(resource: item.resource)
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Done") {
-                                initialResourceId = nil
-                            }
-                        }
-                    }
-            }
+                .tag(Tab.guide)
         }
-        .sheet(item: Binding(
-            get: { initialDocumentId.map { DocSheetItem(id: $0) } },
-            set: { initialDocumentId = $0?.id }
-        )) { item in
-            NavigationStack {
-                DocumentDetailView(documentId: item.id)
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Done") {
-                                initialDocumentId = nil
-                            }
-                        }
-                    }
-            }
-        }
+        .tint(Theme.Colors.primaryText)
     }
-}
-
-private struct StepSheetItem: Identifiable {
-    let id: String
-}
-
-private struct ResourceSheetItem: Identifiable {
-    var id: String { resource.id }
-    let resource: Resource
-}
-
-private struct DocSheetItem: Identifiable {
-    let id: String
 }
 
 #Preview {

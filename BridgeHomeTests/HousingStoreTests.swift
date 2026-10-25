@@ -11,56 +11,33 @@ final class HousingStoreTests: XCTestCase {
     }
     
     func testInitialDataLoaded() {
-        XCTAssertFalse(store.guideSteps.isEmpty, "Guide steps should be loaded")
         XCTAssertFalse(store.resources.isEmpty, "Resources should be loaded")
-        XCTAssertFalse(store.documents.isEmpty, "Documents should be loaded")
+        XCTAssertFalse(store.binderSteps.isEmpty, "Binder steps should be loaded")
+        XCTAssertFalse(store.articles.isEmpty, "Articles should be loaded")
         XCTAssertFalse(store.contacts.isEmpty, "Default contacts should be loaded")
-        XCTAssertNotNil(store.dailyFocusStep, "Should have a daily focus step")
+        XCTAssertNotNil(store.selectedResource, "Should have a selected resource")
     }
     
-    func testToggleStepCompletion() {
-        guard let firstStep = store.guideSteps.first else {
-            XCTFail("No guide steps")
+    func testToggleSubstepCompletion() {
+        guard let firstStep = store.binderSteps.first,
+              let firstSubstep = firstStep.substeps.first else {
+            XCTFail("No substeps found")
             return
         }
         
-        let initialStatus = firstStep.isCompleted
-        store.toggleStepCompletion(stepId: firstStep.id)
+        let initialStatus = firstSubstep.isCompleted
+        store.toggleSubstepCompletion(stepId: firstStep.id, substepId: firstSubstep.id)
         
-        let updatedStep = store.guideSteps.first(where: { $0.id == firstStep.id })
-        XCTAssertEqual(updatedStep?.isCompleted, !initialStatus)
-    }
-    
-    func testChecklistToggling() {
-        guard let stepWithChecklist = store.guideSteps.first(where: { !$0.actionChecklist.isEmpty }),
-              let firstCheckItem = stepWithChecklist.actionChecklist.first else {
-            XCTFail("No step with checklist")
-            return
-        }
+        let updatedSubstep = store.binderSteps
+            .first(where: { $0.id == firstStep.id })?
+            .substeps.first(where: { $0.id == firstSubstep.id })
         
-        XCTAssertFalse(stepWithChecklist.completedChecklistItems.contains(firstCheckItem))
-        
-        store.toggleChecklistItem(stepId: stepWithChecklist.id, item: firstCheckItem)
-        let updatedStep = store.guideSteps.first(where: { $0.id == stepWithChecklist.id })
-        XCTAssertTrue(updatedStep?.completedChecklistItems.contains(firstCheckItem) ?? false)
-        
-        store.toggleChecklistItem(stepId: stepWithChecklist.id, item: firstCheckItem)
-        let toggledBackStep = store.guideSteps.first(where: { $0.id == stepWithChecklist.id })
-        XCTAssertFalse(toggledBackStep?.completedChecklistItems.contains(firstCheckItem) ?? true)
-    }
-    
-    func testDailyFocusSelection() {
-        guard store.guideSteps.count > 1 else { return }
-        let secondStep = store.guideSteps[1]
-        
-        store.setDailyFocus(stepId: secondStep.id)
-        XCTAssertEqual(store.dailyFocusStepId, secondStep.id)
-        XCTAssertEqual(store.dailyFocusStep?.id, secondStep.id)
+        XCTAssertEqual(updatedSubstep?.isCompleted, !initialStatus)
     }
     
     func testToggleResourceSaved() {
         guard let firstResource = store.resources.first else {
-            XCTFail("No resources")
+            XCTFail("No resources found")
             return
         }
         
@@ -74,19 +51,19 @@ final class HousingStoreTests: XCTestCase {
         XCTAssertFalse(store.isResourceSaved(firstResource.id))
     }
     
-    func testDocumentStatusUpdate() {
-        guard let firstDoc = store.documents.first else {
-            XCTFail("No documents")
+    func testToggleArticleBookmark() {
+        guard let firstArticle = store.articles.first else {
+            XCTFail("No articles found")
             return
         }
         
-        store.updateDocumentStatus(documentId: firstDoc.id, status: .haveIt)
-        let updatedDoc = store.documents.first(where: { $0.id == firstDoc.id })
-        XCTAssertEqual(updatedDoc?.status, .haveIt)
+        XCTAssertFalse(store.isArticleBookmarked(firstArticle.id))
         
-        store.updateDocumentStatus(documentId: firstDoc.id, status: .inProgress)
-        let inProgressDoc = store.documents.first(where: { $0.id == firstDoc.id })
-        XCTAssertEqual(inProgressDoc?.status, .inProgress)
+        store.toggleArticleBookmark(articleId: firstArticle.id)
+        XCTAssertTrue(store.isArticleBookmarked(firstArticle.id))
+        
+        store.toggleArticleBookmark(articleId: firstArticle.id)
+        XCTAssertFalse(store.isArticleBookmarked(firstArticle.id))
     }
     
     func testContactManagement() {
@@ -105,5 +82,16 @@ final class HousingStoreTests: XCTestCase {
         
         store.deleteContact(id: newContact.id)
         XCTAssertEqual(store.contacts.count, initialCount)
+    }
+    
+    func testUniversalRoadmapAndStepNotes() {
+        XCTAssertGreaterThan(store.binderSteps.count, 0)
+        XCTAssertGreaterThan(store.totalSubstepsCount, 0)
+        
+        if let firstStep = store.binderSteps.first {
+            store.updateStepNotes(stepId: firstStep.id, notes: "Case #98124 Assigned to Sarah")
+            let updated = store.binderSteps.first(where: { $0.id == firstStep.id })
+            XCTAssertEqual(updated?.personalNotes, "Case #98124 Assigned to Sarah")
+        }
     }
 }

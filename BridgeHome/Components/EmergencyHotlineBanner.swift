@@ -29,10 +29,10 @@ struct EmergencyHotlineBanner: View {
                         Text("Call 2-1-1")
                             .font(.system(.subheadline, design: .default, weight: .semibold))
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color(UIColor.systemBackground))
                     .padding(.horizontal, 18)
                     .padding(.vertical, 10)
-                    .background(Theme.Colors.accent)
+                    .background(Theme.Colors.primaryText)
                     .clipShape(Capsule())
                 }
                 .accessibilityLabel("Call 2-1-1 helpline")

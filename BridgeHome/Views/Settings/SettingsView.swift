@@ -35,7 +35,7 @@ struct SettingsView: View {
                         }
                     } icon: {
                         Image(systemName: "lock.shield.fill")
-                            .foregroundStyle(Theme.Colors.accent)
+                            .foregroundStyle(Theme.Colors.primaryText)
                     }
                 }
                 
@@ -55,7 +55,7 @@ struct SettingsView: View {
                             Spacer()
                             Image(systemName: "phone.fill")
                                 .font(.system(size: 14))
-                                .foregroundStyle(Theme.Colors.accent)
+                                .foregroundStyle(Theme.Colors.primaryText)
                         }
                     }
                     
@@ -74,7 +74,7 @@ struct SettingsView: View {
                             Spacer()
                             Image(systemName: "phone.fill")
                                 .font(.system(size: 14))
-                                .foregroundStyle(Theme.Colors.accent)
+                                .foregroundStyle(Theme.Colors.primaryText)
                         }
                     }
                 }

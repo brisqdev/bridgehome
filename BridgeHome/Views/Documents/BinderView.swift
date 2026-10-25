@@ -2,268 +2,139 @@ import SwiftUI
 
 struct BinderView: View {
     @Environment(HousingStore.self) private var store
-    @Environment(\.openURL) private var openURL
-    @State private var showingAddContact = false
+    @State private var navigationPath = NavigationPath()
+    
+    init() {
+        let args = ProcessInfo.processInfo.arguments
+        if let stepIndex = args.firstIndex(of: "-step"), stepIndex + 1 < args.count {
+            let stepId = args[stepIndex + 1]
+            var path = NavigationPath()
+            path.append(stepId)
+            _navigationPath = State(initialValue: path)
+        }
+    }
+    
+    private var totalTasks: Int {
+        store.totalSubstepsCount
+    }
+    
+    private var completedTasks: Int {
+        store.completedSubstepsCount
+    }
+    
+    private var progressFraction: Double {
+        guard totalTasks > 0 else { return 0 }
+        return Double(completedTasks) / Double(totalTasks)
+    }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.section) {
                     
-                    // Editorial Subtitle
-                    Text("Vital paperwork and support contacts needed for housing applications.")
-                        .font(.system(.body, design: .default))
-                        .foregroundStyle(Theme.Colors.secondaryText)
-                        .lineSpacing(3)
+                    // Header Title
+                    Text("Binder")
+                        .font(.system(.largeTitle, design: .default, weight: .bold))
+                        .foregroundStyle(Theme.Colors.primaryText)
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                        .padding(.top, 2)
+                        .padding(.top, 4)
                     
-                    // Document Checklist Section
-                    VStack(alignment: .leading, spacing: 14) {
-                        SectionHeader(
-                            title: "Application Documents",
-                            subtitle: "Select any item to review how to obtain it or record notes"
-                        )
+                    // Overall Roadmap Progress Bar
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Text("Roadmap Progress")
+                                .font(.system(.subheadline, design: .default, weight: .bold))
+                                .foregroundStyle(Theme.Colors.primaryText)
+                            
+                            Spacer()
+                            
+                            Text("\(completedTasks) of \(totalTasks) completed")
+                                .font(.system(.footnote, design: .default, weight: .semibold))
+                                .foregroundStyle(Theme.Colors.secondaryText)
+                        }
                         
-                        VStack(spacing: 0) {
-                            ForEach(store.documents) { document in
-                                NavigationLink {
-                                    DocumentDetailView(documentId: document.id)
-                                } label: {
-                                    DocumentRow(document: document)
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                    .fill(Theme.Colors.secondaryText.opacity(0.15))
+                                    .frame(height: 8)
+                                
+                                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                    .fill(Theme.Colors.primaryText)
+                                    .frame(width: geo.size.width * CGFloat(progressFraction), height: 8)
+                                    .animation(.spring(response: 0.4), value: progressFraction)
+                            }
+                        }
+                        .frame(height: 8)
+                    }
+                    .padding(Theme.Spacing.element)
+                    .background(Theme.Colors.cardBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
+                    .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                    
+                    // Action Tasks / Milestones List
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Action Phases")
+                            .font(.system(.title3, design: .default, weight: .bold))
+                            .foregroundStyle(Theme.Colors.primaryText)
+                            .padding(.horizontal, Theme.Spacing.screenHorizontal)
+                        
+                        VStack(spacing: 8) {
+                            ForEach(store.binderSteps) { step in
+                                NavigationLink(value: step.id) {
+                                    HStack(spacing: 14) {
+                                        // Phase Number Badge
+                                        ZStack {
+                                            Circle()
+                                                .fill(step.isFullyCompleted ? Theme.Colors.primaryText : Theme.Colors.cardBackground)
+                                                .frame(width: 38, height: 38)
+                                            
+                                            if step.isFullyCompleted {
+                                                Image(systemName: "checkmark")
+                                                    .font(.system(size: 14, weight: .bold))
+                                                    .foregroundStyle(Color(UIColor.systemBackground))
+                                            } else {
+                                                Text("\(step.phaseNumber)")
+                                                    .font(.system(.subheadline, design: .default, weight: .bold))
+                                                    .foregroundStyle(Theme.Colors.primaryText)
+                                            }
+                                        }
+                                        
+                                        // Task Info (Title + concise count, no walls of text)
+                                        VStack(alignment: .leading, spacing: 3) {
+                                            Text(step.title)
+                                                .font(.system(.body, design: .default, weight: .semibold))
+                                                .foregroundStyle(Theme.Colors.primaryText)
+                                                .lineLimit(1)
+                                            
+                                            Text("\(step.completedSubstepsCount) of \(step.substeps.count) tasks completed")
+                                                .font(.system(.caption, design: .default, weight: .medium))
+                                                .foregroundStyle(Theme.Colors.secondaryText)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 13, weight: .semibold))
+                                            .foregroundStyle(Theme.Colors.secondaryText)
+                                    }
+                                    .padding(16)
+                                    .background(Theme.Colors.cardBackground)
+                                    .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
                                 }
                                 .buttonStyle(.plain)
-                                
-                                if document.id != store.documents.last?.id {
-                                    Divider()
-                                        .padding(.leading, 56)
-                                }
+                                .accessibilityLabel("\(step.title), \(step.completedSubstepsCount) of \(step.substeps.count) completed")
                             }
                         }
                         .padding(.horizontal, Theme.Spacing.screenHorizontal)
                     }
-                    
-                    Divider()
-                        .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                    
-                    // Trusted Contacts Section
-                    VStack(alignment: .leading, spacing: 14) {
-                        SectionHeader(
-                            title: "Trusted Contacts",
-                            subtitle: "Direct access to your navigators and case managers",
-                            actionTitle: "Add Contact",
-                            action: {
-                                showingAddContact = true
-                            }
-                        )
-                        
-                        if store.contacts.isEmpty {
-                            Text("No contacts saved. Tap 'Add Contact' to store your caseworker or navigator's number.")
-                                .font(.system(.subheadline, design: .default))
-                                .foregroundStyle(Theme.Colors.secondaryText)
-                                .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                                .padding(.vertical, 8)
-                        } else {
-                            VStack(spacing: 0) {
-                                ForEach(store.contacts) { contact in
-                                    ContactRow(contact: contact)
-                                    
-                                    if contact.id != store.contacts.last?.id {
-                                        Divider()
-                                            .padding(.leading, 56)
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, Theme.Spacing.screenHorizontal)
-                        }
-                    }
-                    
-                    // Privacy Reassurance
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("All documents, notes, and contacts are stored strictly on your device. BridgeHome never uploads or tracks your data.")
-                            .font(.system(.footnote, design: .default))
-                            .foregroundStyle(Theme.Colors.secondaryText)
-                            .lineSpacing(3)
-                    }
-                    .padding(.horizontal, Theme.Spacing.screenHorizontal)
                     .padding(.bottom, Theme.Spacing.section)
                 }
             }
-            .navigationTitle("Binder")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showingAddContact = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(Theme.Colors.accent)
-                    }
-                    .accessibilityLabel("Add Contact")
-                }
-            }
-            .sheet(isPresented: $showingAddContact) {
-                AddContactSheet()
+            .navigationDestination(for: String.self) { stepId in
+                TaskDetailView(stepId: stepId)
             }
         }
-    }
-}
-
-private struct DocumentRow: View {
-    let document: DocumentItem
-    
-    var body: some View {
-        HStack(alignment: .top, spacing: Theme.Spacing.element) {
-            // Status Icon
-            ZStack {
-                Circle()
-                    .fill(Theme.Colors.calloutBackground)
-                    .frame(width: 40, height: 40)
-                
-                Image(systemName: document.status.iconName)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(statusColor)
-            }
-            .accessibilityHidden(true)
-            
-            VStack(alignment: .leading, spacing: 3) {
-                Text(document.name)
-                    .font(.system(.body, design: .default, weight: .semibold))
-                    .foregroundStyle(Theme.Colors.primaryText)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-                
-                HStack(spacing: 6) {
-                    Text(document.status.rawValue)
-                        .font(.system(.caption, design: .default, weight: .medium))
-                        .foregroundStyle(statusColor)
-                    
-                    Text("•")
-                        .font(.system(.caption, design: .default))
-                        .foregroundStyle(Theme.Colors.secondaryText)
-                    
-                    Text(document.category.rawValue)
-                        .font(.system(.caption, design: .default))
-                        .foregroundStyle(Theme.Colors.secondaryText)
-                }
-            }
-            
-            Spacer(minLength: 8)
-            
-            Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(Theme.Colors.secondaryText.opacity(0.4))
-                .padding(.top, 12)
-        }
-        .padding(.vertical, 10)
-        .contentShape(Rectangle())
-    }
-    
-    private var statusColor: Color {
-        switch document.status {
-        case .haveIt:
-            return Theme.Colors.accent
-        case .inProgress:
-            return .orange
-        case .needed:
-            return Theme.Colors.secondaryText.opacity(0.6)
-        }
-    }
-}
-
-private struct ContactRow: View {
-    @Environment(HousingStore.self) private var store
-    @Environment(\.openURL) private var openURL
-    let contact: TrustedContact
-    
-    var body: some View {
-        HStack(alignment: .top, spacing: Theme.Spacing.element) {
-            // Avatar Circle
-            ZStack {
-                Circle()
-                    .fill(Theme.Colors.calloutBackground)
-                    .frame(width: 40, height: 40)
-                
-                Text(initials)
-                    .font(.system(.subheadline, design: .default, weight: .semibold))
-                    .foregroundStyle(Theme.Colors.primaryText)
-            }
-            .accessibilityHidden(true)
-            
-            VStack(alignment: .leading, spacing: 3) {
-                Text(contact.name)
-                    .font(.system(.body, design: .default, weight: .semibold))
-                    .foregroundStyle(Theme.Colors.primaryText)
-                
-                Text("\(contact.role) • \(contact.organization)")
-                    .font(.system(.caption, design: .default))
-                    .foregroundStyle(Theme.Colors.secondaryText)
-                    .lineLimit(1)
-                
-                if !contact.notes.isEmpty {
-                    Text(contact.notes)
-                        .font(.system(.caption2, design: .default))
-                        .foregroundStyle(Theme.Colors.secondaryText)
-                        .lineLimit(1)
-                        .padding(.top, 1)
-                }
-            }
-            
-            Spacer(minLength: 8)
-            
-            HStack(spacing: 8) {
-                if let phoneURL = contact.phoneURL {
-                    Button {
-                        openURL(phoneURL)
-                    } label: {
-                        Image(systemName: "phone.fill")
-                            .font(.system(size: 13))
-                            .foregroundStyle(Theme.Colors.accent)
-                            .frame(width: 32, height: 32)
-                            .background(Theme.Colors.calloutBackground)
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Call \(contact.name)")
-                }
-                
-                if let smsURL = contact.smsURL {
-                    Button {
-                        openURL(smsURL)
-                    } label: {
-                        Image(systemName: "message.fill")
-                            .font(.system(size: 13))
-                            .foregroundStyle(Theme.Colors.primaryText)
-                            .frame(width: 32, height: 32)
-                            .background(Theme.Colors.calloutBackground)
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Text \(contact.name)")
-                }
-            }
-            .padding(.top, 4)
-        }
-        .padding(.vertical, 12)
-        .contentShape(Rectangle())
-        .contextMenu {
-            Button(role: .destructive) {
-                store.deleteContact(id: contact.id)
-            } label: {
-                Label("Delete Contact", systemImage: "trash")
-            }
-        }
-    }
-    
-    private var initials: String {
-        let parts = contact.name.split(separator: " ")
-        if parts.count >= 2, let first = parts.first?.first, let last = parts.last?.first {
-            return "\(first)\(last)".uppercased()
-        } else if let first = parts.first?.first {
-            return String(first).uppercased()
-        }
-        return "C"
     }
 }
 

@@ -19,7 +19,7 @@ struct ResourceDetailView: View {
                     HStack {
                         Text(resource.category.rawValue.uppercased())
                             .font(.system(.caption, design: .default, weight: .bold))
-                            .foregroundStyle(Theme.Colors.accent)
+                            .foregroundStyle(Theme.Colors.secondaryText)
                             .tracking(0.8)
                         
                         Spacer()
@@ -27,7 +27,7 @@ struct ResourceDetailView: View {
                         if resource.isEmergencyHotline {
                             Label("Emergency Dispatch", systemImage: "bolt.fill")
                                 .font(.system(.caption, design: .default, weight: .semibold))
-                                .foregroundStyle(Theme.Colors.accent)
+                                .foregroundStyle(Theme.Colors.primaryText)
                         }
                     }
                     
@@ -56,8 +56,8 @@ struct ResourceDetailView: View {
                             .font(.system(.subheadline, design: .default, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(Theme.Colors.accent)
-                            .foregroundStyle(.white)
+                            .background(Theme.Colors.primaryText)
+                            .foregroundStyle(Color(UIColor.systemBackground))
                             .clipShape(Capsule())
                         }
                     }
@@ -88,7 +88,7 @@ struct ResourceDetailView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .frame(width: 44, height: 44)
                             .background(Theme.Colors.secondaryBackground)
-                            .foregroundStyle(isSaved ? Theme.Colors.accent : Theme.Colors.primaryText)
+                            .foregroundStyle(isSaved ? Theme.Colors.primaryText : Theme.Colors.secondaryText)
                             .clipShape(Circle())
                     }
                     .accessibilityLabel(isSaved ? "Remove bookmark" : "Bookmark resource")
@@ -127,7 +127,7 @@ struct ResourceDetailView: View {
                                 HStack(alignment: .top, spacing: 10) {
                                     Image(systemName: "checkmark")
                                         .font(.system(size: 13, weight: .bold))
-                                        .foregroundStyle(Theme.Colors.accent)
+                                        .foregroundStyle(Theme.Colors.primaryText)
                                         .padding(.top, 2)
                                     
                                     Text(service)
