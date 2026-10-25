@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0F48D223C4BE542E91F657FA /* BridgeHomeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C189FB9E6CE9E2098C6CCDA8 /* BridgeHomeApp.swift */; };
+		132946889E0BB0619C7C3344 /* TrustedContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792E4258E53ED5A88838478 /* TrustedContact.swift */; };
+		135CB5C91C118E0C0886E2D9 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86463B49A4A298EFBA09E318 /* GuideView.swift */; };
+		198C988789DEBF06FE1FD73C /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E72EA6E306E28CBFB336ED /* Resource.swift */; };
+		34F3F93BE1CFD85690E0FDD6 /* AddContactSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725B9134479F0C1459DF0195 /* AddContactSheet.swift */; };
+		65D802E61CB57358D758D401 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26418F426BCB57EEF657C5D0 /* MainTabView.swift */; };
+		6F0D6AE1549EE394D5FA8FCC /* HousingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22C544B1D46C9B4DBE4EBA7 /* HousingStore.swift */; };
+		70C6C5FCDE21A0E2611F993B /* EmergencyHotlineBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4604797FF0529BC4B8EE87 /* EmergencyHotlineBanner.swift */; };
+		71CE3F1A2FFCBE8A0DFA9F77 /* ResourceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C047C3AF3D835ADE3E0CD6 /* ResourceRow.swift */; };
+		730D6569F97075DB42F4C91E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B1331503F8B55845A736AA /* SettingsView.swift */; };
+		787334E1CE6B4D0A31A2252D /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59377AEE6E32DD139193DE3F /* TodayView.swift */; };
+		80EAE0EE2DA0B265E7B31EAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5DF5D64AC62AD04BEA85D35 /* Assets.xcassets */; };
+		91EB05A04486806C9DCA9883 /* DocumentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B3E99C4A2008F1C6191E4D /* DocumentDetailView.swift */; };
+		93FF0680EEEC10114E0FAAEA /* StageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE39BED1A8041C53B196AF6 /* StageDetailView.swift */; };
+		9E200829F21614C1AAB4BC28 /* StepDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C435B4E947C397F12D026F /* StepDetailView.swift */; };
+		9EB3F2D0FC718F4F0D4D412F /* ResourceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABC45155DE6703CFEBEE1E3 /* ResourceDetailView.swift */; };
+		A0ADEF0889DE4F4E3E83ED8C /* BinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B89B065186869F4AA1CBCCF /* BinderView.swift */; };
+		A7E8C95957A488B8A82C4B84 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D4CC91724A213E984BD441 /* Theme.swift */; };
+		ACA7DF4EF24F331D60A1E628 /* DocumentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5D8C8B563C0E4F36F12939 /* DocumentItem.swift */; };
+		B0F4CA0F7211803A4FFBB2BA /* GuideStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00193F4D37BACA4125F9F4F /* GuideStep.swift */; };
+		B34DB101528C68DE485D6D1D /* HousingStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61798AB01B274F271A96CB9E /* HousingStoreTests.swift */; };
+		B37AEADB3E5D8BFF7B929EC9 /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6363A980B9EB82C93F8177A /* ResourcesView.swift */; };
+		C86DC06187771BD763BD615B /* CalloutBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7401A0932DF466934B1D692 /* CalloutBox.swift */; };
+		CAD9A631F52BC31AA229D613 /* StepRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76B050138FFBC59E8442DA9 /* StepRow.swift */; };
+		F214D7036522CAF39DC2A17B /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65B0A4074676C738738E28E /* SectionHeader.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4D15DD502FBFB39D333B0596 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A38CA4560AF5D1CB97845A6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B9D1FCD3124B48EED9058A1D;
+			remoteInfo = BridgeHome;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0AEC61CB60D2B6C074070C11 /* BridgeHome.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BridgeHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		26418F426BCB57EEF657C5D0 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		37C435B4E947C397F12D026F /* StepDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetailView.swift; sourceTree = "<group>"; };
+		3ABC45155DE6703CFEBEE1E3 /* ResourceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceDetailView.swift; sourceTree = "<group>"; };
+		42B1331503F8B55845A736AA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4B5D8C8B563C0E4F36F12939 /* DocumentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentItem.swift; sourceTree = "<group>"; };
+		55E72EA6E306E28CBFB336ED /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		59377AEE6E32DD139193DE3F /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		61798AB01B274F271A96CB9E /* HousingStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousingStoreTests.swift; sourceTree = "<group>"; };
+		725B9134479F0C1459DF0195 /* AddContactSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactSheet.swift; sourceTree = "<group>"; };
+		7B89B065186869F4AA1CBCCF /* BinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderView.swift; sourceTree = "<group>"; };
+		86463B49A4A298EFBA09E318 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		8E4604797FF0529BC4B8EE87 /* EmergencyHotlineBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyHotlineBanner.swift; sourceTree = "<group>"; };
+		8EE39BED1A8041C53B196AF6 /* StageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageDetailView.swift; sourceTree = "<group>"; };
+		A00193F4D37BACA4125F9F4F /* GuideStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideStep.swift; sourceTree = "<group>"; };
+		A6363A980B9EB82C93F8177A /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
+		A7401A0932DF466934B1D692 /* CalloutBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutBox.swift; sourceTree = "<group>"; };
+		A76B050138FFBC59E8442DA9 /* StepRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRow.swift; sourceTree = "<group>"; };
+		A7B3E99C4A2008F1C6191E4D /* DocumentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetailView.swift; sourceTree = "<group>"; };
+		B22C544B1D46C9B4DBE4EBA7 /* HousingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousingStore.swift; sourceTree = "<group>"; };
+		B4C047C3AF3D835ADE3E0CD6 /* ResourceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRow.swift; sourceTree = "<group>"; };
+		B6507706AD6E07132922CAF4 /* BridgeHomeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BridgeHomeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C189FB9E6CE9E2098C6CCDA8 /* BridgeHomeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeHomeApp.swift; sourceTree = "<group>"; };
+		D5DF5D64AC62AD04BEA85D35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D792E4258E53ED5A88838478 /* TrustedContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustedContact.swift; sourceTree = "<group>"; };
+		E65B0A4074676C738738E28E /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		F5D4CC91724A213E984BD441 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		03976EE5313F312A4DFC5402 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				F5D4CC91724A213E984BD441 /* Theme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		0F9A12E3B5E23427DD7F4F2C /* BridgeHome */ = {
+			isa = PBXGroup;
+			children = (
+				2CD95D9B437740940A36A2C0 /* App */,
+				F2591121A9111CB5B4EF83E6 /* Components */,
+				5344C65445E18C2D8267A43A /* Models */,
+				515AFE137F73DB8D4B2CDF12 /* Resources */,
+				D848B228AB8ADDAD8FC78628 /* Services */,
+				03976EE5313F312A4DFC5402 /* Theme */,
+				AABC1E157AE1784DAADAF10D /* Views */,
+			);
+			path = BridgeHome;
+			sourceTree = "<group>";
+		};
+		1D0596993A6A92DA6BB0AA89 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				3ABC45155DE6703CFEBEE1E3 /* ResourceDetailView.swift */,
+				A6363A980B9EB82C93F8177A /* ResourcesView.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		2CD95D9B437740940A36A2C0 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C189FB9E6CE9E2098C6CCDA8 /* BridgeHomeApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		4C206C1FFA37C5465236AC68 /* BridgeHomeTests */ = {
+			isa = PBXGroup;
+			children = (
+				61798AB01B274F271A96CB9E /* HousingStoreTests.swift */,
+			);
+			path = BridgeHomeTests;
+			sourceTree = "<group>";
+		};
+		515AFE137F73DB8D4B2CDF12 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D5DF5D64AC62AD04BEA85D35 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5344C65445E18C2D8267A43A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4B5D8C8B563C0E4F36F12939 /* DocumentItem.swift */,
+				A00193F4D37BACA4125F9F4F /* GuideStep.swift */,
+				55E72EA6E306E28CBFB336ED /* Resource.swift */,
+				D792E4258E53ED5A88838478 /* TrustedContact.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6391A9D733BB90BA3E621830 = {
+			isa = PBXGroup;
+			children = (
+				0F9A12E3B5E23427DD7F4F2C /* BridgeHome */,
+				4C206C1FFA37C5465236AC68 /* BridgeHomeTests */,
+				EBEB166FC028E7A8702A756B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6F53AA17C7AE22B9BF2741B9 /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				725B9134479F0C1459DF0195 /* AddContactSheet.swift */,
+				7B89B065186869F4AA1CBCCF /* BinderView.swift */,
+				A7B3E99C4A2008F1C6191E4D /* DocumentDetailView.swift */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
+		953247DD8A5DB0BDA8099272 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				42B1331503F8B55845A736AA /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		96AA5E7ABC91B90E6A3AC387 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				59377AEE6E32DD139193DE3F /* TodayView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		AABC1E157AE1784DAADAF10D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26418F426BCB57EEF657C5D0 /* MainTabView.swift */,
+				6F53AA17C7AE22B9BF2741B9 /* Documents */,
+				96AA5E7ABC91B90E6A3AC387 /* Home */,
+				BCA1AF99584CB40084899B7F /* Roadmap */,
+				953247DD8A5DB0BDA8099272 /* Settings */,
+				1D0596993A6A92DA6BB0AA89 /* Support */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BCA1AF99584CB40084899B7F /* Roadmap */ = {
+			isa = PBXGroup;
+			children = (
+				86463B49A4A298EFBA09E318 /* GuideView.swift */,
+				8EE39BED1A8041C53B196AF6 /* StageDetailView.swift */,
+				37C435B4E947C397F12D026F /* StepDetailView.swift */,
+			);
+			path = Roadmap;
+			sourceTree = "<group>";
+		};
+		D848B228AB8ADDAD8FC78628 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B22C544B1D46C9B4DBE4EBA7 /* HousingStore.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EBEB166FC028E7A8702A756B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0AEC61CB60D2B6C074070C11 /* BridgeHome.app */,
+				B6507706AD6E07132922CAF4 /* BridgeHomeTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F2591121A9111CB5B4EF83E6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A7401A0932DF466934B1D692 /* CalloutBox.swift */,
+				8E4604797FF0529BC4B8EE87 /* EmergencyHotlineBanner.swift */,
+				B4C047C3AF3D835ADE3E0CD6 /* ResourceRow.swift */,
+				E65B0A4074676C738738E28E /* SectionHeader.swift */,
+				A76B050138FFBC59E8442DA9 /* StepRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B9D1FCD3124B48EED9058A1D /* BridgeHome */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20E07035EF3E433CB837FD7D /* Build configuration list for PBXNativeTarget "BridgeHome" */;
+			buildPhases = (
+				2081D97178F8CA178CC6AA88 /* Sources */,
+				F9C42EDE359F2331C16DD092 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BridgeHome;
+			packageProductDependencies = (
+			);
+			productName = BridgeHome;
+			productReference = 0AEC61CB60D2B6C074070C11 /* BridgeHome.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D1B369987D4F80F82D9569E9 /* BridgeHomeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 832B9AAEF1F9DF9249E0D331 /* Build configuration list for PBXNativeTarget "BridgeHomeTests" */;
+			buildPhases = (
+				179940BF66F29ED20772BCA3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF7874FBC85A83767C3B1C63 /* PBXTargetDependency */,
+			);
+			name = BridgeHomeTests;
+			packageProductDependencies = (
+			);
+			productName = BridgeHomeTests;
+			productReference = B6507706AD6E07132922CAF4 /* BridgeHomeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A38CA4560AF5D1CB97845A6C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = A601597DA4A8EAB8C29925E5 /* Build configuration list for PBXProject "BridgeHome" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6391A9D733BB90BA3E621830;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = EBEB166FC028E7A8702A756B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B9D1FCD3124B48EED9058A1D /* BridgeHome */,
+				D1B369987D4F80F82D9569E9 /* BridgeHomeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F9C42EDE359F2331C16DD092 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80EAE0EE2DA0B265E7B31EAC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		179940BF66F29ED20772BCA3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B34DB101528C68DE485D6D1D /* HousingStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2081D97178F8CA178CC6AA88 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34F3F93BE1CFD85690E0FDD6 /* AddContactSheet.swift in Sources */,
+				A0ADEF0889DE4F4E3E83ED8C /* BinderView.swift in Sources */,
+				0F48D223C4BE542E91F657FA /* BridgeHomeApp.swift in Sources */,
+				C86DC06187771BD763BD615B /* CalloutBox.swift in Sources */,
+				91EB05A04486806C9DCA9883 /* DocumentDetailView.swift in Sources */,
+				ACA7DF4EF24F331D60A1E628 /* DocumentItem.swift in Sources */,
+				70C6C5FCDE21A0E2611F993B /* EmergencyHotlineBanner.swift in Sources */,
+				B0F4CA0F7211803A4FFBB2BA /* GuideStep.swift in Sources */,
+				135CB5C91C118E0C0886E2D9 /* GuideView.swift in Sources */,
+				6F0D6AE1549EE394D5FA8FCC /* HousingStore.swift in Sources */,
+				65D802E61CB57358D758D401 /* MainTabView.swift in Sources */,
+				198C988789DEBF06FE1FD73C /* Resource.swift in Sources */,
+				9EB3F2D0FC718F4F0D4D412F /* ResourceDetailView.swift in Sources */,
+				71CE3F1A2FFCBE8A0DFA9F77 /* ResourceRow.swift in Sources */,
+				B37AEADB3E5D8BFF7B929EC9 /* ResourcesView.swift in Sources */,
+				F214D7036522CAF39DC2A17B /* SectionHeader.swift in Sources */,
+				730D6569F97075DB42F4C91E /* SettingsView.swift in Sources */,
+				93FF0680EEEC10114E0FAAEA /* StageDetailView.swift in Sources */,
+				9E200829F21614C1AAB4BC28 /* StepDetailView.swift in Sources */,
+				CAD9A631F52BC31AA229D613 /* StepRow.swift in Sources */,
+				A7E8C95957A488B8A82C4B84 /* Theme.swift in Sources */,
+				787334E1CE6B4D0A31A2252D /* TodayView.swift in Sources */,
+				132946889E0BB0619C7C3344 /* TrustedContact.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AF7874FBC85A83767C3B1C63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B9D1FCD3124B48EED9058A1D /* BridgeHome */;
+			targetProxy = 4D15DD502FBFB39D333B0596 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		017FA7827DEA5AEE21749667 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHomeTests;
+				PRODUCT_NAME = BridgeHomeTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BridgeHome.app/BridgeHome";
+			};
+			name = Debug;
+		};
+		22E5B4F02F4712A747692EF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7AD46C90702B0BC9C0DF2492 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHomeTests;
+				PRODUCT_NAME = BridgeHomeTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BridgeHome.app/BridgeHome";
+			};
+			name = Release;
+		};
+		95952C351F86C27016955470 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BridgeHome;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHome;
+				PRODUCT_NAME = BridgeHome;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9857F19A936AAA145604CA20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BridgeHome;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHome;
+				PRODUCT_NAME = BridgeHome;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C197AD4BB5C6A07CA167A88B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		20E07035EF3E433CB837FD7D /* Build configuration list for PBXNativeTarget "BridgeHome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9857F19A936AAA145604CA20 /* Debug */,
+				95952C351F86C27016955470 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		832B9AAEF1F9DF9249E0D331 /* Build configuration list for PBXNativeTarget "BridgeHomeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				017FA7827DEA5AEE21749667 /* Debug */,
+				7AD46C90702B0BC9C0DF2492 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A601597DA4A8EAB8C29925E5 /* Build configuration list for PBXProject "BridgeHome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C197AD4BB5C6A07CA167A88B /* Debug */,
+				22E5B4F02F4712A747692EF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A38CA4560AF5D1CB97845A6C /* Project object */;
+}
