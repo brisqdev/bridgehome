@@ -46,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AEC61CB60D2B6C074070C11 /* BridgeHome.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BridgeHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AEC61CB60D2B6C074070C11 /* BridgeHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BridgeHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E24E1F0C0AEBF3E6DB09E45 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		1312CBA324BB84D8514874B9 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		26418F426BCB57EEF657C5D0 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		A8D77AC625BF48581C80FE1A /* BinderStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderStep.swift; sourceTree = "<group>"; };
 		B22C544B1D46C9B4DBE4EBA7 /* HousingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousingStore.swift; sourceTree = "<group>"; };
 		B4C047C3AF3D835ADE3E0CD6 /* ResourceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRow.swift; sourceTree = "<group>"; };
-		B6507706AD6E07132922CAF4 /* BridgeHomeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BridgeHomeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6507706AD6E07132922CAF4 /* BridgeHomeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BridgeHomeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAAFAF8A342EA1365C9F3408 /* ArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailView.swift; sourceTree = "<group>"; };
 		C189FB9E6CE9E2098C6CCDA8 /* BridgeHomeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeHomeApp.swift; sourceTree = "<group>"; };
 		D5DF5D64AC62AD04BEA85D35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -286,8 +286,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = A601597DA4A8EAB8C29925E5 /* Build configuration list for PBXProject "BridgeHome" */;
 			developmentRegion = en;
@@ -375,6 +373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = MCA34S4D3R;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -382,7 +381,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHomeTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savera.BridgeHome;
 				PRODUCT_NAME = BridgeHomeTests;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -451,6 +450,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = MCA34S4D3R;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -458,7 +458,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHomeTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savera.BridgeHome;
 				PRODUCT_NAME = BridgeHomeTests;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -474,6 +474,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MCA34S4D3R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = BridgeHome;
@@ -487,7 +488,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHome;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savera.BridgeHome;
 				PRODUCT_NAME = BridgeHome;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -502,6 +503,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MCA34S4D3R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = BridgeHome;
@@ -515,7 +517,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.bridgehome.BridgeHome;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savera.BridgeHome;
 				PRODUCT_NAME = BridgeHome;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
