@@ -1,0 +1,27 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "bridgehome",
+          "kind" : "fileSystem",
+          "location" : "/Users/kabirsekhon/Documents/bridgehome",
+          "name" : "bridgehome"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/kabirsekhon/Documents/bridgehome"
+        },
+        "subpath" : "bridgehome"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}
